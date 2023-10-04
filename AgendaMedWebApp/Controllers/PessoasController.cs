@@ -11,7 +11,13 @@ namespace AgendaMedWebApp.Controllers
             var model = new PessoasModel();
             foreach (var pessoa in Pessoa.Pessoas)
             {
-                model.Pessoas.Add(new PessoaModel() {Nome = pessoa.Nome, Cpf = pessoa.Cpf });
+                model.Pessoas.Add(new PessoaModel() 
+                {
+                    Nome = pessoa.Nome, 
+                    Cpf = pessoa.Cpf, 
+                    Crm = pessoa.Crm,  
+                    Telefone = pessoa.Telefone, 
+                });
 
             }
             return View(model);
