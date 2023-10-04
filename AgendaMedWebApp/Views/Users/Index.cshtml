@@ -10,8 +10,6 @@
             <tr>
                 <th>ID</th>
                 <th>Nickname</th>
-                <th>Nome</th>
-                <th>Email</th>
                 <th>Tipo de acesso</th>
                 <th></th>
             </tr>
@@ -22,8 +20,6 @@
                 <tr>
                     <td>@user.Id</td>
                     <td>@user.Nickname</td>
-                    <td>@user.Name</td>
-                    <td>@user.Email</td>
                     <td>@user.AccessType.ToString()</td>
                     <td>
                         <a type="button" class="btn btn-warning" asp-controller="Users" asp-action="Update" asp-route-id="@user.Id">Editar</a>

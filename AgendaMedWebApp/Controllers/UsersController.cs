@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AgendaMed.Models;
+using AgendaMedWebApp.Models;
 
-namespace AgendaMed.Controllers
+namespace AgendaMedWebApp.Controllers
 {
     public class UsersController : Controller
     {
@@ -14,7 +14,7 @@ namespace AgendaMed.Controllers
 
             var model = new UsersModel();
 
-            foreach (var user in Business.Generics.User.Users)
+            foreach (var user in Business.Genericos.User.Users)
             {
                 model.Users.Add(new UserModel() {
                     Id = user.Id,
