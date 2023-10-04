@@ -1,0 +1,30 @@
+﻿@model PessoasModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="text-center">
+    <h3>Lista de Pessoas</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pessoa in Model.Pessoas)
+            {
+                <tr>
+                    <td>@pessoa.Nome</td>
+                    <td>@pessoa.Cpf</td>
+
+                </tr>
+            }
+
+        </tbody>
+
+
+    </table>
+</div>
