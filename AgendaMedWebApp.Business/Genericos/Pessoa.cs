@@ -25,21 +25,21 @@ namespace AgendaMedWebApp.Business.Genericos
 
 
             },
-                        new Pessoa
+
+            new Pessoa
             {
             Nome = "Juliana",
             Cpf = "1515155"
 
             },
-                                    new Pessoa
+
+            new Pessoa
             {
             Nome = "Gustavo",
             Cpf = "1515155"
             }
-
-
-
         };
+
         public Pessoa()
         {
             Id = ++_currentId;

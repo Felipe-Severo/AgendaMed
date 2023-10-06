@@ -1,168 +1,170 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AgendaMedWebApp.Models;
+﻿//using Microsoft.AspNetCore.Mvc;
+//using AgendaMedWebApp.Models;
+//using AgendaMedWebApp.Business.Genericos;
 
-namespace AgendaMedWebApp.Controllers
-{
-    public class UsersController : Controller
-    {
-        public IActionResult Index()
-        {
-            //if (Business.Genericos.User.GetLoggedUser().AccessType != Business.Genericos.AccessType.Adm)
-            //{
-            //    return BadRequest("O usuário não possui acesso a esta página");
-            //}
 
-            var model = new UsersModel();
+//namespace AgendaMedWebApp.Controllers
+//{
+//    public class UsersController : Controller
+//    {
+//        public IActionResult Index()
+//        {
+//            //if (Business.Genericos.User.GetLoggedUser().AccessType != Business.Genericos.AccessType.Adm)
+//            //{
+//            //    return BadRequest("O usuário não possui acesso a esta página");
+//            //}
 
-            foreach (var user in Business.Genericos.User.Users)
-            {
-                model.Users.Add(new UserModel() {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Nickname = user.Nickname,
-                    Email = user.Email,
-                    Password = user.Password,
-                    AccessType = user.AccessType,
-                    });
-            }
+//            var model = new UsersModel();
 
-            // Redireciona para o arquivo Index.cshtml na pasta Users
-            return View(model);
-        }
+//            foreach (var user in Business.Genericos.User.Users)
+//            {
+//                model.Users.Add(new UserModel() {
+//                    Id = user.Id,
+//                    Name = user.Name,
+//                    Nickname = user.Nickname,
+//                    Email = user.Email,
+//                    Password = user.Password,
+//                    AccessType = user.AccessType,
+//                    });
+//            }
 
-        public IActionResult Add()
-        {
-            return View();
-        }
+//            // Redireciona para o arquivo Index.cshtml na pasta Users
+//            return View(model);
+//        }
 
-        [HttpPost]
-        public IActionResult Add(UserModel userModel)
-        {
-            var usuarioCadastro = new Business.Generics.User()
-            {
-                Name = userModel.Name,
-                Nickname = userModel.Nickname,
-                Email = userModel.Email,
-                Password = userModel.Password,
-                AccessType = userModel.AccessType,
-            };
+//        public IActionResult Add()
+//        {
+//            return View();
+//        }
 
-            Business.Generics.User.Users.Add(usuarioCadastro);
-            return RedirectToAction("Index");
-        }
+//        [HttpPost]
+//        public IActionResult Add(UserModel userModel)
+//        {
+//            var usuarioCadastro = new Business.Generics.User()
+//            {
+//                Name = userModel.Name,
+//                Nickname = userModel.Nickname,
+//                Email = userModel.Email,
+//                Password = userModel.Password,
+//                AccessType = userModel.AccessType,
+//            };
 
-        public IActionResult Update(long id)
-        {
-            var model = new UserModel();
-            Business.Generics.User usuarioAlterar = null;
+//            Business.Generics.User.Users.Add(usuarioCadastro);
+//            return RedirectToAction("Index");
+//        }
 
-            foreach (var usuario in Business.Generics.User.Users)
-            {
-                if (usuario.Id == id)
-                {
-                    usuarioAlterar = usuario;
-                    break;
-                }
-            }
+//        public IActionResult Update(long id)
+//        {
+//            var model = new UserModel();
+//            Business.Generics.User usuarioAlterar = null;
 
-            if (usuarioAlterar == null)
-            {
-                throw new Exception("Não existe usuário cadastrado com o ID informado!");
-            }
+//            foreach (var usuario in Business.Generics.User.Users)
+//            {
+//                if (usuario.Id == id)
+//                {
+//                    usuarioAlterar = usuario;
+//                    break;
+//                }
+//            }
 
-            model.Id = id;
-            model.Nickname = usuarioAlterar.Nickname;
-            model.Name = usuarioAlterar.Name;
-            model.Email = usuarioAlterar.Email;
-            model.AccessType = usuarioAlterar.AccessType;
+//            if (usuarioAlterar == null)
+//            {
+//                throw new Exception("Não existe usuário cadastrado com o ID informado!");
+//            }
 
-            return View(model);
-        }
+//            model.Id = id;
+//            model.Nickname = usuarioAlterar.Nickname;
+//            model.Name = usuarioAlterar.Name;
+//            model.Email = usuarioAlterar.Email;
+//            model.AccessType = usuarioAlterar.AccessType;
 
-        [HttpPost]
-        public IActionResult Update(UserModel usuarioAtualizado)
-        {
-            var model = new UserModel();
-            Business.Generics.User usuarioAlterar = null;
+//            return View(model);
+//        }
 
-            foreach (var usuario in Business.Generics.User.Users)
-            {
-                if (usuario.Id == usuarioAtualizado.Id)
-                {
-                    usuarioAlterar = usuario;
-                    break;
-                }
-            }
+//        [HttpPost]
+//        public IActionResult Update(UserModel usuarioAtualizado)
+//        {
+//            var model = new UserModel();
+//            Business.Generics.User usuarioAlterar = null;
 
-            if (usuarioAlterar == null)
-            {
-                throw new Exception("Não existe usuário cadastrado com o ID informado!");
-            }
+//            foreach (var usuario in Business.Generics.User.Users)
+//            {
+//                if (usuario.Id == usuarioAtualizado.Id)
+//                {
+//                    usuarioAlterar = usuario;
+//                    break;
+//                }
+//            }
 
-            usuarioAlterar.Name = usuarioAtualizado.Name;
-            usuarioAlterar.Nickname = usuarioAtualizado.Nickname;
-            usuarioAlterar.Email = usuarioAtualizado.Email;
-            usuarioAlterar.AccessType = usuarioAtualizado.AccessType;
+//            if (usuarioAlterar == null)
+//            {
+//                throw new Exception("Não existe usuário cadastrado com o ID informado!");
+//            }
 
-            if (usuarioAtualizado.Password != "00000000" && usuarioAtualizado.Password != usuarioAlterar.Password)
-            {
-                usuarioAlterar.Password = usuarioAtualizado.Password;
-            }
+//            usuarioAlterar.Name = usuarioAtualizado.Name;
+//            usuarioAlterar.Nickname = usuarioAtualizado.Nickname;
+//            usuarioAlterar.Email = usuarioAtualizado.Email;
+//            usuarioAlterar.AccessType = usuarioAtualizado.AccessType;
 
-            return RedirectToAction("Index");
-        }
+//            if (usuarioAtualizado.Password != "00000000" && usuarioAtualizado.Password != usuarioAlterar.Password)
+//            {
+//                usuarioAlterar.Password = usuarioAtualizado.Password;
+//            }
 
-        public IActionResult Delete(long id)
-        {
-            var model = new UserModel();
-            Business.Generics.User usuarioAlterar = null;
+//            return RedirectToAction("Index");
+//        }
 
-            foreach (var usuario in Business.Generics.User.Users)
-            {
-                if (usuario.Id == id)
-                {
-                    usuarioAlterar = usuario;
-                    break;
-                }
-            }
+//        public IActionResult Delete(long id)
+//        {
+//            var model = new UserModel();
+//            Business.Generics.User usuarioAlterar = null;
 
-            if (usuarioAlterar == null)
-            {
-                throw new Exception("Não existe usuário cadastrado com o ID informado!");
-            }
+//            foreach (var usuario in Business.Generics.User.Users)
+//            {
+//                if (usuario.Id == id)
+//                {
+//                    usuarioAlterar = usuario;
+//                    break;
+//                }
+//            }
 
-            model.Id = id;
-            model.Nickname = usuarioAlterar.Nickname;
-            model.Name = usuarioAlterar.Name;
-            model.Email = usuarioAlterar.Email;
-            model.AccessType = usuarioAlterar.AccessType;
+//            if (usuarioAlterar == null)
+//            {
+//                throw new Exception("Não existe usuário cadastrado com o ID informado!");
+//            }
 
-            return View(model);
-        }
+//            model.Id = id;
+//            model.Nickname = usuarioAlterar.Nickname;
+//            model.Name = usuarioAlterar.Name;
+//            model.Email = usuarioAlterar.Email;
+//            model.AccessType = usuarioAlterar.AccessType;
 
-        [HttpPost]
-        public IActionResult Delete(UserModel usuarioAtualizado)
-        {
-            var model = new UserModel();
-            Business.Generics.User usuarioExcluir = null;
+//            return View(model);
+//        }
 
-            foreach (var usuario in Business.Generics.User.Users)
-            {
-                if (usuario.Id == usuarioAtualizado.Id)
-                {
-                    usuarioExcluir = usuario;
-                    break;
-                }
-            }
+//        [HttpPost]
+//        public IActionResult Delete(UserModel usuarioAtualizado)
+//        {
+//            var model = new UserModel();
+//            Business.Generics.User usuarioExcluir = null;
 
-            if (usuarioExcluir == null)
-            {
-                throw new Exception("Não existe usuário cadastrado com o ID informado!");
-            }
+//            foreach (var usuario in Business.Generics.User.Users)
+//            {
+//                if (usuario.Id == usuarioAtualizado.Id)
+//                {
+//                    usuarioExcluir = usuario;
+//                    break;
+//                }
+//            }
 
-            Business.Generics.User.Users.Remove(usuarioExcluir);
+//            if (usuarioExcluir == null)
+//            {
+//                throw new Exception("Não existe usuário cadastrado com o ID informado!");
+//            }
 
-            return RedirectToAction("Index");
-        }
-    }
-}
+//            Business.Generics.User.Users.Remove(usuarioExcluir);
+
+//            return RedirectToAction("Index");
+//        }
+//    }
+//}
