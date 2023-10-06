@@ -1,6 +1,6 @@
 ﻿namespace AgendaMed.Models
 {
-    public class ClinicModel
+    public class ClinicaModel
     {
     }
 }

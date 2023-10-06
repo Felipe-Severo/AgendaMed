@@ -1,6 +1,6 @@
 ﻿namespace AgendaMed.Models
 {
-    public class ConsultaModel
+    public class ReceitaModel
     {
     }
 }

@@ -27,6 +27,7 @@ namespace AgendaMedWebApp.Business.Genericos
             
 
             },
+
             new Pessoa
             {
             Nome = "Juliana",
@@ -37,6 +38,7 @@ namespace AgendaMedWebApp.Business.Genericos
 
 
             },
+
             new Pessoa
             {
             Nome = "Gustavo",
@@ -45,10 +47,8 @@ namespace AgendaMedWebApp.Business.Genericos
             Telefone = "41 95895635",
          
             }
-
-
-
         };
+
         public Pessoa()
         {
             Id = ++_currentId;
