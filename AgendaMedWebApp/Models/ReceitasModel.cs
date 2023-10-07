@@ -1,4 +1,4 @@
-﻿namespace AgendaMed.Models
+﻿namespace AgendaMedWebApp.Models
 {
     public class ReceitasModel
     {
