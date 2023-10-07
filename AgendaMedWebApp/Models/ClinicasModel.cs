@@ -1,4 +1,7 @@
-﻿namespace AgendaMed.Models
+﻿using AgendaMed.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AgendaMedWebApp.Models
 {
     public class ClinicasModel
     {
