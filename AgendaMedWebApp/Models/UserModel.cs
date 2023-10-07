@@ -10,6 +10,7 @@ namespace AgendaMedWebApp.Models
         public PessoaModel Pessoa { get; set; }
         public string Password { get; set; }
         public string Nickname { get; set; } = string.Empty;
+        public string Documento  { get; set; }
         public AccessType AccessType { get; set; }
     }
 }
