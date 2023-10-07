@@ -21,22 +21,31 @@ namespace AgendaMedWebApp.Business.Genericos
             new Pessoa
             {
             Nome = "Fanny",
-            Cpf = "1515155"
-
+            Cpf = "1515155",
+            Crm = "1234",
+            Telefone = "41 95895635",
+            
 
             },
 
             new Pessoa
             {
             Nome = "Juliana",
-            Cpf = "1515155"
+            Cpf = "1515155",
+               Crm = "1234",
+            Telefone = "41 95895635",
+            
+
 
             },
 
             new Pessoa
             {
             Nome = "Gustavo",
-            Cpf = "1515155"
+            Cpf = "1515155",
+               Crm = "1234",
+            Telefone = "41 95895635",
+         
             }
         };
 

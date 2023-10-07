@@ -1,6 +1,6 @@
 ﻿namespace AgendaMed.Models
 {
-    public class RceitasModel
+    public class ReceitasModel
     {
         public List<ReceitaModel> Receitas { get; set; } = new List<ReceitaModel>();
     }
