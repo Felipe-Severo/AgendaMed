@@ -1,0 +1,31 @@
+﻿@model ConsultasModel
+@{
+    ViewData["Title"] = "Consultas";
+}
+<div class="text-center">
+    <h3>Agendamentos</h3>
+    <a type="button" class="btn btn-primary float-end" asp-controller="Consultas" asp-action="Add">Agendar</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Médico</th>
+                <th>Data da consulta</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var consulta in Model.Consultas)
+            {
+                <tr>
+                    <td>@consulta.Id</td>
+                    <td>@consulta.Medico</td>
+                    <td>@consulta.DataConsulta</td>
+                    <td>
+                        <a type="button" class="btn btn-warning" asp-controller="Consultas" asp-action="Update" asp-route-id="@consulta.Id">Editar</a>
+                        <a type="button" class="btn btn-danger" asp-controller="Consultas" asp-action="Delete" asp-route-id="@consulta.Id">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
