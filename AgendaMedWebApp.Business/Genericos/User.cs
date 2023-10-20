@@ -35,7 +35,7 @@ namespace AgendaMedWebApp.Business.Genericos
         {
             new User()
             {
-                Pessoa = Pessoa.Pessoas.First(),
+                //Pessoa = Pessoa.Pessoas.First(),
                 Password = "Bolinha",
                 Nickname = "Anderson",
                 Documento = "CRM2224",

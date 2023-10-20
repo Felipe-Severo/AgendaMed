@@ -102,36 +102,36 @@ namespace AgendaMedWebApp.Controllers
         }
 
 
-        public IActionResult Delete(long id)
-        {
-            var pessoaCadastrada = Pessoa.Pessoas.FirstOrDefault(x => x.Id == id);
-            if (pessoaCadastrada == null)
-            {
-                throw new Exception("Esse ser não existe!");
-            }
+        //public IActionResult Delete(long id)
+        //{
+        //    var pessoaCadastrada = Pessoa.Pessoas.FirstOrDefault(x => x.Id == id);
+        //    if (pessoaCadastrada == null)
+        //    {
+        //        throw new Exception("Esse ser não existe!");
+        //    }
 
-            var model = new PessoaModel();
-            model.Id = id;
-            model.Nome = pessoaCadastrada.Nome;
-            model.Cpf = pessoaCadastrada.Cpf;
-            model.Telefone = pessoaCadastrada.Telefone;
+        //    var model = new PessoaModel();
+        //    model.Id = id;
+        //    model.Nome = pessoaCadastrada.Nome;
+        //    model.Cpf = pessoaCadastrada.Cpf;
+        //    model.Telefone = pessoaCadastrada.Telefone;
 
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
-        [HttpPost]
-        public IActionResult Delete(PessoaModel pessoaModel)
-        {
-            var pessoaCadastrada = Pessoa.Pessoas.FirstOrDefault(x => x.Id == pessoaModel.Id);
-            if (pessoaCadastrada == null)
-            {
-                throw new Exception("Esse ser não existe!");
-            }
+        //[HttpPost]
+        //public IActionResult Delete(PessoaModel pessoaModel)
+        //{
+        //    var pessoaCadastrada = Pessoa.Pessoas.FirstOrDefault(x => x.Id == pessoaModel.Id);
+        //    if (pessoaCadastrada == null)
+        //    {
+        //        throw new Exception("Esse ser não existe!");
+        //    }
 
-            Pessoa.Pessoas.Remove(pessoaCadastrada);
+        //    Pessoa.Pessoas.Remove(pessoaCadastrada);
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
     }
 }
