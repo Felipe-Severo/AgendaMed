@@ -9,22 +9,54 @@ namespace AgendaMedWebApp.Controllers
         public IActionResult Index()
         {
             var model = new PessoasModel();
-            foreach (var pessoa in Pessoa.Read())
+
+            var vendas = Pessoa.Read();
+            foreach (var venda in vendas)
             {
-                model.Pessoas.Add(new PessoaModel(pessoa));
+                model.Pessoas.Add(new PessoaModel(venda));
             }
+
             return View(model);
-            //foreach (var pessoa in Business.Genericos.Pessoa.Pessoas)
-            //{
-            //    model.Pessoas.Add(new PessoaModel()
-            //    {
-            //        Nome = pessoa.Nome,
-            //        Cpf = pessoa.Cpf,
-            //        Telefone = pessoa.Telefone,
-            //        DataNascimento = pessoa.DataNascimento,
-            //    });
-            //}
-            //return View(model);
+        }
+        //public IActionResult Index()
+        //{
+        //    var model = new PessoasModel();
+        //    foreach (var pessoa in Pessoa.Read())
+        //    {
+        //        model.Pessoas.Add(new PessoaModel(pessoa));
+        //    }
+        //    return View(model);
+        //    foreach (var pessoa in Business.Genericos.Pessoa.Pessoas)
+        //    {
+        //        model.Pessoas.Add(new PessoaModel()
+        //        {
+        //            Nome = pessoa.Nome,
+        //            Cpf = pessoa.Cpf,
+        //            Telefone = pessoa.Telefone,
+        //            DataNascimento = pessoa.DataNascimento,
+
+        //            Id = pessoa.Id,
+        //            Nome = pessoa.Nome,
+        //            Sobrenome = pessoa.Sobrenome,
+        //            Cpf = pessoa.Cpf,
+        //            Crm = pessoa.Crm;
+        //            DataNascimento = pessoa.DataNascimento,
+        //            Telefone = pessoa.Telefone,
+        //    });
+        //    }
+        //    return View(model);
+        //}
+
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(PessoaModel pessoaModel)
+        {
+            var id = pessoaModel.GetPessoa().Create();
+            return RedirectToAction("Update", new { id = id });
         }
 
         //public IActionResult Add()
@@ -47,6 +79,18 @@ namespace AgendaMedWebApp.Controllers
         //    return RedirectToAction("Index");
         //}
 
+
+        public IActionResult Update(long id)
+        {
+            return View(new PessoaModel(Pessoa.ReadOne(id)));
+        }
+
+        [HttpPost]
+        public IActionResult Update(PessoaModel pessoaModel)
+        {
+            pessoaModel.GetPessoa().Update();
+            return RedirectToAction("Index");
+        }
         //public IActionResult Update(long id)
         //{
         //    var model = new PessoaModel();
@@ -92,8 +136,23 @@ namespace AgendaMedWebApp.Controllers
 
         //    return RedirectToAction("Index");
         //}
-        
-         
+
+
+
+
+        public IActionResult Delete(long id)
+        {
+            return View(new PessoaModel(Pessoa.ReadOne(id)));
+        }
+
+        [HttpPost]
+        public IActionResult Delete(PessoaModel pessoaModel)
+        {
+            pessoaModel.GetPessoa().Delete();
+            return RedirectToAction("Index");
+        }
+
+
         //public IActionResult Delete(long id)
         //{
         //    var pessoaCadastrada = Pessoa.Pessoas.FirstOrDefault(x => x.Id == id);
@@ -107,7 +166,7 @@ namespace AgendaMedWebApp.Controllers
         //    model.Nome = pessoaCadastrada.Nome;
         //    model.Cpf = pessoaCadastrada.Cpf;
         //    model.Telefone = pessoaCadastrada.Telefone;
-           
+
 
         //    return View(model);
         //}

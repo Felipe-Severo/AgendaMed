@@ -48,6 +48,13 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - AgendaMed - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="float-end">
+                Conexão com o Banco:
+
+                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                <i class="fa fa-window-close" aria-hidden="false"></i>
+                @AgendaMedWebApp.Business.Utils.DBConnect.TestConnection().ToString();
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
