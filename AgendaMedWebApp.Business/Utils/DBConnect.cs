@@ -11,7 +11,7 @@ namespace AgendaMedWebApp.Business.Utils
     public class DBConnect
     {
         private IConfiguration _configuration = null;
-        private const string DBConnection = "Data Source=BUE0001D016\\SQLEXPRESS;Initial Catalog=AgendaMedMVC;User ID=sa;Password=Senac@2021;";
+        private const string DBConnection = "Data Source=BUE0001D023\\SQLEXPRESS;Initial Catalog=Appointment_Scheduling_SystemDB;User ID=sa;Password=Senac@2021;";
 
         public static string GetDBConnection()
         {

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using AgendaMed.Business.Genericos;
+using AgendaMedWebApp.Business.Utils;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,32 +21,149 @@ namespace AgendaMedWebApp.Business.Genericos
     public class Consulta
     {
         public long Id { get; set; }
-        public string Medico { get; set; }
-        public string Paciente { get; set; }
+        public long Medico { get; set; }
+        public long Paciente { get; set; }
+        public long Receita { get; set; }
         public DateTime DataConsulta { get; set; }
         public StatusConsulta StatusConsulta { get; set; }
         public string Sintomas { get; set; }
         public string Recomendacoes { get; set; }
         public string Exames { get; set;}
+        public DateTime DataAgendamento { get; set; }
 
 
-        private static long _currentId = 0;
-        public static List<Consulta> Consultas = new List<Consulta>()
+ 
+        public static List<Consulta> Read()
         {
-            new Consulta
+            var result = new List<Consulta>();
+
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
-                Medico = "Dr. Orlando",
-                Paciente = "Everaldo da Silva",
-                
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, SCHEDULE_DATE FROM APPOINTMENTS";
 
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Consulta consulta = new Consulta()
+                    {
+                        Id = reader.GetInt32(0),
+                        Medico = reader.GetInt32(1),
+                        Paciente = reader.GetInt32(2),
+                        Receita = reader.GetInt32(3),
+                        DataConsulta = reader.GetDateTime(4),
+                        Sintomas = reader.GetString(5),
+                        Exames = reader.GetString(6),
+                        Recomendacoes = reader.GetString(7),
+                        StatusConsulta = (StatusConsulta) reader.GetInt32(8),
+                        DataAgendamento = reader.GetDateTime(9),
+                        
+                       
+                    };
+
+                    result.Add(consulta);
+                }
             }
-            
-        };
 
-        public Consulta()
+            return result;
+        }
+
+        public static Consulta ReadOne(long id)
         {
-            Id = ++_currentId;
+            Consulta result = null;
+
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, SCHEDULE_DATE FROM APPOINTMENTS WHERE ID = @ID";
+                cmd.Parameters.Add(new SqlParameter("@ID", id));
+
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    Consulta consulta = new Consulta()
+                    {
+                        Id = reader.GetInt32(0),
+                        Medico = reader.GetInt32(1),
+                        Paciente = reader.GetInt32(2),
+                        Receita = reader.GetInt32(3),
+                        DataConsulta = reader.GetDateTime(4),
+                        Sintomas = reader.GetString(5),
+                        Exames = reader.GetString(6),
+                        Recomendacoes = reader.GetString(7),
+                        StatusConsulta = (StatusConsulta)reader.GetInt32(8),
+                        DataAgendamento = reader.GetDateTime(9),
+                    };
+
+                    result = consulta;
+                }
+            }
+
+            return result;
+        }
+
+        public void Create()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "INSERT INTO APPOINTMENTS (DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, SCHEDULE_DATE )" +
+                                  $"VALUES (@MEDICO_ID, @PACIENTE_ID, @RECEITA_ID, @DATA_CONSULTA, @SINTOMAS, @EXAMES, @RECOMENDACOES, @STATUS_DA_CONSULTA, @DATA_AGENDAMENTO)";
+
+                cmd.Parameters.Add(new SqlParameter("@MEDICO_ID", Medico));
+                cmd.Parameters.Add(new SqlParameter("@PACIENTE_ID", Paciente));
+                cmd.Parameters.Add(new SqlParameter("@RECEITA_ID", Receita));
+                cmd.Parameters.Add(new SqlParameter("@DATA_CONSULTA", DataConsulta));
+                cmd.Parameters.Add(new SqlParameter("@SINTOMAS", Sintomas));
+                cmd.Parameters.Add(new SqlParameter("@EXAMES", Exames));
+                cmd.Parameters.Add(new SqlParameter("@RECOMENDACOES", Recomendacoes));
+                cmd.Parameters.Add(new SqlParameter("@STATUS_DA_CONSULTA", StatusConsulta));
+                cmd.Parameters.Add(new SqlParameter("@DATA_AGENDAMENTO", DataAgendamento));
+
+
+
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void Update()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "UPDATE APPOINTMENTS SET DOCTOR_ID = @MEDICO_ID, PATIENT_ID = @PACIENTE_ID, RECEITA_ID = @RECEITA_ID, DATA_CONSULTA = @DATA_CONSULTA, HORA_CONSULTA = @HORA_CONSULTA, SINTOMAS = @SINTOMAS, EXAMES = @EXAMES, RECOMENDACOES = @RECOMENDACOES, STATUS_DA_CONSULTA = @STATUS_DA_CONSULTA, DATA_AGENDAMENTO = @SCHEDULE_DATEWHERE ID = @ID";
+
+                cmd.Parameters.Add(new SqlParameter("@MEDICO_ID", Medico));
+                cmd.Parameters.Add(new SqlParameter("@PACIENTE_ID", Paciente));
+                cmd.Parameters.Add(new SqlParameter("@RECEITA_ID", Receita));
+                cmd.Parameters.Add(new SqlParameter("@DATA_CONSULTA", DataConsulta));
+                cmd.Parameters.Add(new SqlParameter("@SINTOMAS", Sintomas));
+                cmd.Parameters.Add(new SqlParameter("@EXAMES", Exames));
+                cmd.Parameters.Add(new SqlParameter("@RECOMENDACOES", Recomendacoes));
+                cmd.Parameters.Add(new SqlParameter("@STATUS_DA_CONSULTA", StatusConsulta));
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void Delete()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM APPOINTMENTS WHERE ID = @ID";
+
+                cmd.Parameters.Add(new SqlParameter("@ID", Id));
+                cmd.ExecuteNonQuery();
+            }
         }
     }
-    
 }
+    
+
