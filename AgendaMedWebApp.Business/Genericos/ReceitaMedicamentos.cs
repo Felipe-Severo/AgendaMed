@@ -105,9 +105,56 @@ namespace AgendaMedWebApp.Business.Genericos
 
                 return result;
             }
+        public void Create()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "INSERT INTO MEDICATION_PRESCRIPTIONS (MEDICATION_ID, PRESCRIPTION_ID, DOSAGE, PRESCRIPTION, ID)" +
+                                  $"VALUES (@MEDICATION_ID, @PRESCRIPTION_ID, @DOSAGE, @PRESCRIPTION, @ID)";
 
+                cmd.Parameters.Add(new SqlParameter("@MEDICATION_ID", Medication_Id));
+                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_ID", Prescription_Id));
+                cmd.Parameters.Add(new SqlParameter("@DOSAGE", Dosage));
+                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION", Prescription));
+                cmd.Parameters.Add(new SqlParameter("@ID", Id));
+
+                cmd.ExecuteNonQuery();
+            }
         }
+
+        public void Update()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "UPDATE MEDICATION_PRESCRIPTIONS SET MEDICATION_ID = @MEDICATION_ID, PRESCRIPTION_ID = @PRESCRIPTION_ID , DOSAGE = @DOSAGE, PRESCRIPTION = @PRESCRIPTION WHERE ID = @ID";
+
+                cmd.Parameters.Add(new SqlParameter("@MEDICATION_ID", Medication_Id));
+                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_ID", Prescription_Id));
+                cmd.Parameters.Add(new SqlParameter("@DOSAGE", Dosage));
+                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION", Prescription));
+                
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void Delete()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM MEDICATION_PRESCRIPTIONS WHERE ID = @ID";
+
+                cmd.Parameters.Add(new SqlParameter("@ID", Id));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+
     }
-
-
+}
 

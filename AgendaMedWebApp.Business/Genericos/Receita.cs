@@ -11,15 +11,12 @@ namespace AgendaMedWebApp.Business.Genericos
 {
     public class Receita
     {
-        public long Id { get; set; }       
+        public long Id { get; set; }
         public DateTime DataPrescricao { get; set; }
-        public int Medicamentos { get; set; }
-        public decimal Dosagem { get; set; }
-        public int PosologiaHora { get; set; }
-        public int PosologiaDias { get; set; }
+        
 
-        public List<ReceitaMedicamentos> _Medicamento { get; set; }  = new List<ReceitaMedicamentos>();
-    
+        public List<ReceitaMedicamentos> _Medicamento { get; set; } = new List<ReceitaMedicamentos>();
+
 
 
 
@@ -49,127 +46,115 @@ namespace AgendaMedWebApp.Business.Genericos
         //{
         //    Id = ++_currentId;
         //}
-      
-    
-        
-        
 
-            public static List<Receita> Read()
+
+
+
+
+        public static List<Receita> Read()
+        {
+            var result = new List<Receita>();
+
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
-                var result = new List<Receita>();
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT ID, PRESCRIPTION_DATE FROM PRESCRIPTIONS";
 
-                using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    conn.Open();
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = "SELECT ID, PRESCRIPTION_DATE FROM PRESCRIPTIONS";
-
-                    var reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    Receita receita = new Receita()
                     {
-                        Receita receita = new Receita()
-                        {
-                            Id = reader.GetInt32(0),
-                            DataPrescricao = reader.GetDateTime(1),
-                          
-                        };
+                        Id = reader.GetInt32(0),
+                        DataPrescricao = reader.GetDateTime(1),
 
-                        receita._Medicamento = ReceitaMedicamentos.Read(venda.Id);
+                    };
 
-                        result.Add(venda);
-                    }
+                    receita._Medicamento = ReceitaMedicamentos.Read(receita.Id);
+
+                    result.Add(receita);
                 }
-
-                return result;
             }
 
-            public static Venda ReadOne(long id)
+            return result;
+        }
+
+        public static Receita ReadOne(long id)
+        {
+            Receita result = null;
+
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
-                Venda result = null;
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT ID, PRESCRIPTION_DATE FROM PRESCRIPTIONS WHERE ID = @ID";
+                cmd.Parameters.Add(new SqlParameter("@ID", id));
 
-                using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
                 {
-                    conn.Open();
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = "SELECT ID, CLIENTE, VALOR, DATA, VENDEDOR, FORMAPAGAMENTO FROM VENDAS WHERE ID = @ID";
-                    cmd.Parameters.Add(new SqlParameter("@ID", id));
-
-                    var reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    Receita receita = new Receita()
                     {
-                        Venda venda = new Venda()
-                        {
-                            Id = reader.GetInt32(0),
-                            Cliente = reader.GetInt32(1),
-                            Valor = reader.GetDecimal(2),
-                            Data = reader.GetDateTime(3),
-                            Vendedor = reader.GetInt32(4),
-                            FormaPagamento = (FormaPagamento)reader.GetInt32(5),
-                        };
-                        venda.Produtos = VendaProduto.Read(venda.Id);
+                        Id = reader.GetInt32(0),
+                        DataPrescricao = reader.GetDateTime(1),
+                    };
 
-                        result = venda;
-                    }
-                }
+                    receita._Medicamento = ReceitaMedicamentos.Read(receita.Id);
 
-                return result;
-            }
-
-            public void Create()
-            {
-                using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
-                {
-                    conn.Open();
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = "INSERT INTO VENDAS (CLIENTE, VALOR, DATA, VENDEDOR, FORMAPAGAMENTO)" +
-                                      $"VALUES (@CLIENTE, @VALOR, @DATA, @VENDEDOR, @FORMAPAGAMENTO)";
-
-                    cmd.Parameters.Add(new SqlParameter("@CLIENTE", Cliente));
-                    cmd.Parameters.Add(new SqlParameter("@VALOR", Valor));
-                    cmd.Parameters.Add(new SqlParameter("@DATA", Data));
-                    cmd.Parameters.Add(new SqlParameter("@VENDEDOR", Vendedor));
-                    cmd.Parameters.Add(new SqlParameter("@FORMAPAGAMENTO", FormaPagamento));
-
-                    cmd.ExecuteNonQuery();
+                    result = receita;
                 }
             }
 
-            public void Update()
+            return result;
+        }
+
+        public void Create()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
-                using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
-                {
-                    conn.Open();
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = "UPDATE VENDAS SET CLIENTE = @CLIENTE, VALOR = @VALOR, DATA = @DATA, VENDEDOR = @VENDEDOR, FORMAPAGAMENTO = @FORMAPAGAMENTO WHERE ID = @ID";
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "INSERT INTO PRESCRIPTIONS (PRESCRIPTION_DATE)" +
+                                  $"VALUES (@PRESCRIPTION_DATE)";
 
-                    cmd.Parameters.Add(new SqlParameter("@ID", Id));
-                    cmd.Parameters.Add(new SqlParameter("@CLIENTE", Cliente));
-                    cmd.Parameters.Add(new SqlParameter("@VALOR", Valor));
-                    cmd.Parameters.Add(new SqlParameter("@DATA", Data));
-                    cmd.Parameters.Add(new SqlParameter("@VENDEDOR", Vendedor));
-                    cmd.Parameters.Add(new SqlParameter("@FORMAPAGAMENTO", FormaPagamento));
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-
-            public void Delete()
-            {
-                using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
-                {
-                    conn.Open();
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = "DELETE FROM VENDAS WHERE ID = @ID";
-
-                    cmd.Parameters.Add(new SqlParameter("@ID", Id));
-                    cmd.ExecuteNonQuery();
-                }
-            }
-
-            public class Medicamento
-            {
+                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_DATE", DataPrescricao));
+            
+                cmd.ExecuteNonQuery();
             }
         }
+
+        public void Update()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "UPDATE PRESCRIPTIONS SET PRESCRIPTION_DATE = @PRESCRIPTION_DATE WHERE ID = @ID";
+
+                cmd.Parameters.Add(new SqlParameter("@ID", Id));
+                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_DATE", DataPrescricao));
+              
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void Delete()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM PRESCRIPTIONS WHERE ID = @ID";
+
+                cmd.Parameters.Add(new SqlParameter("@ID", Id));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+
     }
 }
+
 
