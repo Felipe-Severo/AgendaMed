@@ -1,0 +1,34 @@
+﻿@model MedicamentosModel
+@{
+    ViewData["Title"] = "Medicamentos";
+}
+<div class="text-center">
+    <h3>Medicamentos</h3>
+    <a type="button" class="btn btn-primary float-end" asp-controller="Medicamentos" asp-action="Add">incluir</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Dosagem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var medicamento in Model.Medicamentos)
+            {
+                <tr>
+                    <td>@medicamento.Id</td>
+                    <td>@medicamento.Nome</td>
+                    <td>@medicamento.Descricao</td>
+                    <td>@medicamento.Dosagem</td>
+
+                    <td>
+                        <a type="button" class="btn btn-warning" asp-controller="Medicamentos" asp-action="Update" asp-route-id="@medicamento.Id">Editar</a>
+                        <a type="button" class="btn btn-danger" asp-controller="Medicamentos" asp-action="Delete" asp-route-id="@medicamento.Id">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

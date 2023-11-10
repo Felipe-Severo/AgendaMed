@@ -8,6 +8,7 @@ namespace AgendaMedWebApp.Models
         public string Nome { get; set; } = string.Empty;
         public string Descricao { get; set; } = string.Empty;
         public decimal Dosagem { get; set; }
+        public object Medicamentos { get; internal set; }
 
         public MedicamentoModel()
         {

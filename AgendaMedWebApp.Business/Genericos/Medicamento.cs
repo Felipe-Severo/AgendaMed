@@ -16,19 +16,10 @@ namespace AgendaMed.Business.Genericos
         public decimal Dosagem { get; set; }
 
 
-        private static long _currentId = 0;
-        public static List<Medicamento> Medicamentos = new List<Medicamento>()
-        {
-            new Medicamento
-            {
-                Nome = "Dipirona",
-                Descricao = "Dor de cabeça",
-            },
-        };
 
         public Medicamento()
         {
-            Id = ++_currentId;
+
         }
         public static List<Medicamento> Read()
         {
@@ -38,7 +29,7 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, NOME, DESCRICAO, DOSAGEM FROM MEDICAMENTOS";
+                cmd.CommandText = "SELECT ID, MEDICATION_NAME, DESCRIPTION, DOSAGE FROM MEDICATIONS";
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -67,7 +58,7 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, NOME, DESCRICAO, DOSAGEM FROM MEDICAMENTO WHERE ID = @ID";
+                cmd.CommandText = "SELECT ID, MEDICATION_NAME, DESCRIPTION, DOSAGE FROM MEDICATIONS WHERE ID = @ID";
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
 
                 var reader = cmd.ExecuteReader();
@@ -94,7 +85,7 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO PRODUTOS (NOME, DESCRICAO, DOSAGEM )" +
+                cmd.CommandText = "INSERT INTO MEDICATIONS (MEDICATION_NAME, DESCRIPTION, DOSAGE )" +
                                   $"VALUES (@NOME, @DESCRICAO, @DOSAGEM)";
 
                 cmd.Parameters.Add(new SqlParameter("@NOME", Nome));
@@ -111,7 +102,7 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE PRODUTOS SET NOME = @NOME, DESCRICAO = @DESCRICAO, DOSAGEM = @DOSAGEM WHERE ID = @ID";
+                cmd.CommandText = "UPDATE MEDICATIONS SET NAME = @NOME, DESCRIPTION = @DESCRICAO, DOSAGE = @DOSAGEM WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
                 cmd.Parameters.Add(new SqlParameter("@NOME", Nome));
@@ -128,7 +119,7 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM MEDICAMENTOS WHERE ID = @ID";
+                cmd.CommandText = "DELETE FROM MEDICATIONS WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
                 cmd.ExecuteNonQuery();
