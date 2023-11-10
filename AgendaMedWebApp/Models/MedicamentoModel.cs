@@ -24,7 +24,7 @@ namespace AgendaMedWebApp.Models
 
         }
 
-        internal Medicamento GetProduto()
+        internal Medicamento GetMedicamento()
         {
             return new Medicamento() { Id = Id, Nome = Nome, Descricao = Descricao, Dosagem = Dosagem };
         }

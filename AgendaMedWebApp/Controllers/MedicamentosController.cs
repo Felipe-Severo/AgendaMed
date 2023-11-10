@@ -29,7 +29,7 @@ namespace AgendaMed.Controllers
         [HttpPost]
         public IActionResult Add(MedicamentoModel medicamento)
         {
-            medicamento.GetProduto().Create();
+            medicamento.GetMedicamento().Create();
             return RedirectToAction("Index");
         }
 
@@ -47,7 +47,7 @@ namespace AgendaMed.Controllers
         [HttpPost]
         public IActionResult Update(MedicamentoModel medicamento)
         {
-            medicamento.GetProduto().Update();
+            medicamento.GetMedicamento().Update();
             return RedirectToAction("Index");
         }
 
@@ -65,7 +65,7 @@ namespace AgendaMed.Controllers
         [HttpPost]
         public IActionResult Delete(MedicamentoModel medicamento)
         {
-            medicamento.GetProduto().Delete();
+            medicamento.GetMedicamento().Delete();
             return RedirectToAction("Index");
         }
     }
