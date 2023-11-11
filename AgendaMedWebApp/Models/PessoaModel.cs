@@ -11,6 +11,7 @@ namespace AgendaMedWebApp.Models
         public string Crm { get; set; }
         public string Telefone { get; set; }
         public DateTime DataNascimento { get; set; }
+        public bool IsMedic { get; set; }
 
         public PessoaModel()
         {
@@ -26,6 +27,7 @@ namespace AgendaMedWebApp.Models
             Crm = pessoa.Crm;
             DataNascimento = pessoa.DataNascimento;
             Telefone = pessoa.Telefone;
+            IsMedic = pessoa.IsMedic;
         }
 
         public Pessoa GetPessoa()

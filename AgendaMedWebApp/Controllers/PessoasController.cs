@@ -88,7 +88,7 @@ namespace AgendaMedWebApp.Controllers
         [HttpPost]
         public IActionResult Update(PessoaModel pessoaModel)
         {
-            pessoaModel.GetPessoa().Update();
+            pessoaModel.GetPessoa().Update(pessoaModel.Id);
             return RedirectToAction("Index");
         }
         //public IActionResult Update(long id)

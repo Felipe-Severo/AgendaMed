@@ -1,0 +1,42 @@
+﻿@model PessoaModel
+@{
+    ViewData["Title"] = "Pessoa";
+}
+<div>
+    <h3>Cadastro de pessoas</h3>
+
+    <form asp-controller="Pessoas" asp-action="Add" method="post">
+        <div class="form-group">
+            <label for="name">Nome</label>
+            <input type="text" id="name_completo" class="form-control" asp-for="Nome" />
+        </div>
+        <div class="form-group">
+            <label for="sobrenome">Sobrenome</label>
+            <input type="text" id="sobrenome" class="form-control" asp-for="Sobrenome" />
+        </div>
+
+        <div class="form-group">
+            <label for="data_nascimento">Data de nascimento</label>
+            <input type="date" id="data_nascimento" class="form-control" asp-for="DataNascimento" />
+        </div>
+
+        <div class="form-group">
+            <label for="CPF">CPF</label>
+            <input type="text" id="CPF" class="form-control" asp-for="Cpf" />
+        </div>
+
+        <div class="form-group">
+            <label for="CRM">CRM</label>
+            <input type="text" id="CRM" class="form-control" asp-for="Crm" />
+        </div>
+
+        <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" class="form-control" asp-for="Telefone"></input>
+        </div>
+
+        <br />
+        <button type="submit" class="btn btn-primary float-end">Salvar</button>
+        <a class="btn btn-secondary float-end" asp-controller="Pessoas" asp-action="Index">Voltar</a>
+    </form>
+</div>

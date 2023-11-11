@@ -1,7 +1,9 @@
 ﻿using AgendaMedWebApp.Business.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,7 @@ namespace AgendaMedWebApp.Business.Genericos
         public string Crm { get; set; }
         public string Telefone { get; set; }
         public DateTime DataNascimento { get; set; }
+        public bool IsMedic { get; set; }
 
 
         public static List<Pessoa> Read()
@@ -38,10 +41,19 @@ namespace AgendaMedWebApp.Business.Genericos
                         Nome = reader.GetString(1),
                         Sobrenome = reader.GetString(2),
                         Cpf = reader.GetString(3),
-                        Crm = reader.GetString(4),
+                        Crm = reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
                         DataNascimento = reader.GetDateTime(5),
                         Telefone = reader.GetString(6)
                     };
+
+                    if (reader.IsDBNull(4))
+                    {
+                        pessoa.IsMedic = false;
+                    }
+                    else
+                    {
+                        pessoa.IsMedic = true;
+                    }
 
                     result.Add(pessoa);
                 }
@@ -92,8 +104,7 @@ namespace AgendaMedWebApp.Business.Genericos
                     $"OUTPUT INSERTED.ID VALUES (@FIRST_NAME, @LAST_NAME, @CPF, @CRM, @BIRTH_DATE, @PHONE_NUMBER)";
 
                 cmd.Parameters.Add(new SqlParameter("@FIRST_NAME", Nome));
-                cmd.Parameters.Add(new SqlParameter("@FIRST_NAME", Nome));
-                cmd.Parameters.Add(new SqlParameter("@LAST_NAME", Cpf));
+                cmd.Parameters.Add(new SqlParameter("@LAST_NAME", Sobrenome));
                 cmd.Parameters.Add(new SqlParameter("@CPF", Cpf));
                 cmd.Parameters.Add(new SqlParameter("@CRM", Crm));
                 cmd.Parameters.Add(new SqlParameter("@BIRTH_DATE", DataNascimento));
@@ -103,7 +114,7 @@ namespace AgendaMedWebApp.Business.Genericos
             }
         }
 
-        public void Update()
+        public void Update(long id)
         {
             using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
@@ -114,8 +125,7 @@ namespace AgendaMedWebApp.Business.Genericos
 
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
                 cmd.Parameters.Add(new SqlParameter("@FIRST_NAME", Nome));
-                cmd.Parameters.Add(new SqlParameter("@FIRST_NAME", Nome));
-                cmd.Parameters.Add(new SqlParameter("@LAST_NAME", Cpf));
+                cmd.Parameters.Add(new SqlParameter("@LAST_NAME", Sobrenome));
                 cmd.Parameters.Add(new SqlParameter("@CPF", Cpf));
                 cmd.Parameters.Add(new SqlParameter("@CRM", Crm));
                 cmd.Parameters.Add(new SqlParameter("@BIRTH_DATE", DataNascimento));
@@ -138,6 +148,46 @@ namespace AgendaMedWebApp.Business.Genericos
             }
         }
 
+        //public static bool IsDoctor(long id)
+        //{
+        //    Pessoa result = null;
+
+        //    using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+        //    {
+        //        conn.Open();
+        //        var cmd = conn.CreateCommand();
+        //        cmd.CommandText = "SELECT ID, FIRST_NAME, LAST_NAME, CPF, CRM, BIRTH_DATE, PHONE_NUMBER FROM PEOPLE WHERE ID = @ID";
+        //        cmd.Parameters.Add(new SqlParameter("@ID", id));
+
+        //        var reader = cmd.ExecuteReader();
+        //        if (reader.Read())
+        //        {
+        //            Pessoa pessoa = new Pessoa()
+        //            {
+        //                Id = reader.GetInt32(0),
+        //                Nome = reader.GetString(1),
+        //                Sobrenome = reader.GetString(2),
+        //                Cpf = reader.GetString(3),
+        //                Crm = reader.GetString(4),
+        //                DataNascimento = reader.GetDateTime(5),
+        //                Telefone = reader.GetString(6)
+        //            };
+
+        //            result = pessoa;
+        //        }
+
+        //        if (Crm  != null)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+
+        }
+
     }
-}
+
 
