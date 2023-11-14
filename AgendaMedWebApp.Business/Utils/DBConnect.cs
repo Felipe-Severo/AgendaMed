@@ -11,7 +11,14 @@ namespace AgendaMedWebApp.Business.Utils
     public class DBConnect
     {
         private IConfiguration _configuration = null;
-        private const string DBConnection = "Data Source=BUE0001D023\\SQLEXPRESS;Initial Catalog=Appointment_Scheduling_SystemDB;User ID=sa;Password=Senac@2021;";
+
+        public DBConnect()
+        {
+            //var builder - new ConfigurationBuilder
+        }
+
+        private const string DBConnection = "Data Source=NOTEBOOK\\SQLEXPRESS;Initial Catalog=Appointment_Scheduling_SystemDB;User ID=sa;Password=Senac@2021;";
+
 
         public static string GetDBConnection()
         {
@@ -26,7 +33,7 @@ namespace AgendaMedWebApp.Business.Utils
                 {
                     conn.Open();
                     var cmd = conn.CreateCommand();
-                    cmd.CommandText = "SELECT COUNT(ID) FROM PESSOAS";
+                    cmd.CommandText = "SELECT COUNT(ID) FROM PEOPLE";
 
                     var reader = cmd.ExecuteReader();
                     reader.Read();
