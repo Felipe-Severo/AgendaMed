@@ -27,6 +27,18 @@ namespace AgendaMedWebApp.Controllers
             //return View(model);
         }
 
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(PessoaModel pessoaModel)
+        {
+            var id = pessoaModel.GetPessoa().Create();
+            return RedirectToAction("Update", new { id = id });
+        }
+
         //public IActionResult Add()
         //{
         //    return View();
@@ -47,6 +59,18 @@ namespace AgendaMedWebApp.Controllers
         //    return RedirectToAction("Index");
         //}
 
+
+        public IActionResult Update(long id)
+        {
+            return View(new PessoaModel(Pessoa.ReadOne(id)));
+        }
+
+        [HttpPost]
+        public IActionResult Update(PessoaModel pessoaModel)
+        {
+            pessoaModel.GetPessoa().Update(pessoaModel.Id);
+            return RedirectToAction("Index");
+        }
         //public IActionResult Update(long id)
         //{
         //    var model = new PessoaModel();
@@ -92,8 +116,23 @@ namespace AgendaMedWebApp.Controllers
 
         //    return RedirectToAction("Index");
         //}
-        
-         
+
+
+
+
+        public IActionResult Delete(long id)
+        {
+            return View(new PessoaModel(Pessoa.ReadOne(id)));
+        }
+
+        [HttpPost]
+        public IActionResult Delete(PessoaModel pessoaModel)
+        {
+            pessoaModel.GetPessoa().Delete();
+            return RedirectToAction("Index");
+        }
+
+
         //public IActionResult Delete(long id)
         //{
         //    var pessoaCadastrada = Pessoa.Pessoas.FirstOrDefault(x => x.Id == id);
@@ -107,7 +146,7 @@ namespace AgendaMedWebApp.Controllers
         //    model.Nome = pessoaCadastrada.Nome;
         //    model.Cpf = pessoaCadastrada.Cpf;
         //    model.Telefone = pessoaCadastrada.Telefone;
-           
+
 
         //    return View(model);
         //}
