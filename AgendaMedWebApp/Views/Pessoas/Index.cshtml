@@ -6,10 +6,14 @@
 }
 <div class="text-center">
     <h3>Lista de Pessoas</h3>
+    <a type="button" class="btn btn-primary float-end" asp-controller="Pessoas" asp-action="Add">Novo</a>
+
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Nome</th>
+                <th>Sobrenome</th>
+                <th>Data de nascimento</th>
                 <th>CPF</th>
                 <th>Crm</th>
                 <th>Telefone</th>
@@ -18,14 +22,26 @@
         <tbody>
             @foreach (var pessoa in Model.Pessoas)
             {
-                <tr>
-                    <td>@pessoa.Nome</td>
-                    <td>@pessoa.Cpf</td>
-                    <td>@pessoa.Crm</td>
-                    <td>@pessoa.Telefone</td>
-                    
+                @if (pessoa.IsMedic)
+                {
 
-                </tr>
+                    <tr>
+                        <td>@pessoa.Nome</td>
+                        <td>@pessoa.Sobrenome</td>
+                        <td>@pessoa.DataNascimento</td>
+                        <td>@pessoa.Cpf</td>
+                        <td>@pessoa.Crm</td>
+                        <td>@pessoa.Telefone</td>
+                        <td>
+                            <div>
+                                <a type="button" class="btn btn-warning" asp-route-id="@pessoa.Id" asp-controller="Pessoas" asp-action="Update">Editar</a>
+                                <a type="button" class="btn btn-danger" asp-route-id="@pessoa.Id" asp-controller="Pessoas" asp-action="Delete">Excluir</a>
+                            </div>
+
+                        </td>
+
+                    </tr>
+                }
             }
 
         </tbody>
