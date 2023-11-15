@@ -17,7 +17,7 @@ namespace AgendaMedWebApp.Business.Utils
             //var builder - new ConfigurationBuilder
         }
 
-        private const string DBConnection = "Data Source=NOTEBOOK\\SQLEXPRESS;Initial Catalog=Appointment_Scheduling_SystemDB;User ID=sa;Password=Senac@2021;";
+        private const string DBConnection = "Data Source=LOCALHOST\\SQLEXPRESS;Initial Catalog=Appointment_Scheduling_SystemDB;User ID=sa;Password=Senac@2021;";
 
 
         public static string GetDBConnection()
