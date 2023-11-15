@@ -36,7 +36,7 @@ namespace AgendaMedWebApp.Controllers
         public IActionResult Add(PessoaModel pessoaModel)
         {
             var id = pessoaModel.GetPessoa().Create();
-            return RedirectToAction("Update", new { id = id });
+            return RedirectToAction("Index", new { id = id });
         }
 
         //public IActionResult Add()
