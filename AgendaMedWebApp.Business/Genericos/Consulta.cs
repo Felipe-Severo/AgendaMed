@@ -41,7 +41,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, SCHEDULE_DATE FROM APPOINTMENTS";
+                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATETIME, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON FROM APPOINTMENTS";
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -77,7 +77,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, SCHEDULE_DATE FROM APPOINTMENTS WHERE ID = @ID";
+                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON FROM APPOINTMENTS WHERE ID = @ID";
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
 
                 var reader = cmd.ExecuteReader();
@@ -110,7 +110,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO APPOINTMENTS (DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, SCHEDULE_DATE )" +
+                cmd.CommandText = "INSERT INTO APPOINTMENTS (DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON )" +
                                   $"VALUES (@MEDICO_ID, @PACIENTE_ID, @RECEITA_ID, @DATA_CONSULTA, @SINTOMAS, @EXAMES, @RECOMENDACOES, @STATUS_DA_CONSULTA, @DATA_AGENDAMENTO)";
 
                 cmd.Parameters.Add(new SqlParameter("@MEDICO_ID", Medico));
@@ -136,7 +136,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE APPOINTMENTS SET DOCTOR_ID = @MEDICO_ID, PATIENT_ID = @PACIENTE_ID, RECEITA_ID = @RECEITA_ID, DATA_CONSULTA = @DATA_CONSULTA, HORA_CONSULTA = @HORA_CONSULTA, SINTOMAS = @SINTOMAS, EXAMES = @EXAMES, RECOMENDACOES = @RECOMENDACOES, STATUS_DA_CONSULTA = @STATUS_DA_CONSULTA, DATA_AGENDAMENTO = @SCHEDULE_DATEWHERE ID = @ID";
+                cmd.CommandText = "UPDATE APPOINTMENTS SET DOCTOR_ID = @MEDICO_ID, PATIENT_ID = @PACIENTE_ID, RECEITA_ID = @RECEITA_ID, DATA_CONSULTA = @DATA_CONSULTA, HORA_CONSULTA = @HORA_CONSULTA, SINTOMAS = @SINTOMAS, EXAMES = @EXAMES, RECOMENDACOES = @RECOMENDACOES, STATUS_DA_CONSULTA = @STATUS_DA_CONSULTA, DATA_AGENDAMENTO = @CREATED_ON WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@MEDICO_ID", Medico));
                 cmd.Parameters.Add(new SqlParameter("@PACIENTE_ID", Paciente));
