@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AgendaMedWebApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
@@ -54,6 +55,18 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - AgendaMed - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="float-end">
+                Conexão com o Banco:
+
+                @if (AgendaMedWebApp.Business.Utils.DBConnect.TestConnection() == true)
+                {
+                    <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+                }
+                else
+                {
+                    <i class="fa fa-window-close text-danger" aria-hidden="false"></i>
+                }
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
