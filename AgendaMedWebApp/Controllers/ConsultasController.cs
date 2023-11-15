@@ -10,21 +10,26 @@ namespace AgendaMedWebApp.Controllers
         {
             var model = new ConsultasModel();
 
-            foreach (var consulta in Business.Genericos.Consulta.Consultas)
+            var consultas = Consulta.Read();
+            foreach (var consulta in consultas)
             {
-                model.Consultas.Add(new ConsultaModel()
-                {
-                    Medico = consulta.Medico,
-                    Paciente = consulta.Paciente,
-                    DataConsulta = consulta.DataConsulta,
-                    StatusConsulta = consulta.StatusConsulta,
-                    Sintomas = consulta.Sintomas,
-                    Exames = consulta.Exames,
-                    Recomendacoes = consulta.Recomendacoes,
-                });
+                model.Consultas.Add(new ConsultaModel(consulta));
             }
             return View(model);
         }
+
+
+        //public IActionResult Add()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public IActionResult Add(ConsultaModel consultaModel)
+        //{
+        //    var id = consultaModel.GetConsulta().Create();
+        //    return RedirectToAction("Add", new { id = id });
+        //}
 
         public IActionResult Add()
         {
@@ -43,9 +48,10 @@ namespace AgendaMedWebApp.Controllers
                 Sintomas = consultaModel.Sintomas,
                 Exames = consultaModel.Exames,
                 Recomendacoes = consultaModel.Recomendacoes,
+                DataAgendamento = consultaModel.DataAgendamento,
             };
 
-            Business.Genericos.Consulta.Consultas.Add(consultaCadastro);
+            Business.Genericos.Consulta.Read().Add(consultaCadastro);
             return RedirectToAction("Index");
         }
 
@@ -54,7 +60,7 @@ namespace AgendaMedWebApp.Controllers
             var model = new ConsultaModel();
             Business.Genericos.Consulta consultaAlterar = null;
 
-            foreach (var consulta in Business.Genericos.Consulta.Consultas)
+            foreach (var consulta in Business.Genericos.Consulta.Read())
             {
                 if (consulta.Id == id)
                 {
@@ -83,7 +89,7 @@ namespace AgendaMedWebApp.Controllers
         [HttpPost]
         public IActionResult Update(ConsultaModel consultaAtualizado)
         {
-            var consultaCadastrado = Consulta.Consultas.FirstOrDefault(x => x.Id == consultaAtualizado.Id);
+            var consultaCadastrado = Consulta.Read().FirstOrDefault(x => x.Id == consultaAtualizado.Id);
 
             if (consultaCadastrado == null)
             {
