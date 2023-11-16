@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AgendaMedWebApp.Business.Utils;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -18,35 +20,115 @@ namespace AgendaMedWebApp.Business.Genericos
     public class User
     {
         public long Id { get; set; }
-        public Pessoa Pessoa { get; set; }
+        public long Pessoa { get; set; }
         public string Password { get; set; }
-        public string Nickname { get; set; } = string.Empty;
-        public string Documento { get; set; }
-
+        public string Login { get; set; }
         public AccessType AccessType { get; set; }
 
 
-
-
-        private static long _currentId = 0;
-
-
-        public static List<User> Users = new List<User>()
+        public static List<User> Read()
         {
-            new User()
+            var result = new List<User>();
+
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
-                //Pessoa = Pessoa.Pessoas.First(),
-                Password = "Bolinha",
-                Nickname = "Anderson",
-                Documento = "CRM2224",
-                AccessType = AccessType.Adm,
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT ID, PERSON_ID, LOGIN, PASSWORD, ACCESS_TYPE FROM USERS";
+
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    User user = new User()
+                    {
+                        Id = reader.GetInt32(0),
+                        Pessoa = reader.GetInt32(1),
+                        Login = reader.GetString(2),
+                        Password = reader.GetString(3),
+                        AccessType = (AccessType)reader.GetInt32(4),
+                    };
+                    result.Add(user);
+                }
             }
-        };
 
+            return result;
+        }
 
-        public User()
+        public static User ReadOne(long id)
         {
-            Id = ++_currentId;
+            User result = null;
+
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT ID, PERSON_ID, LOGIN, PASSWORD, ACCESS_TYPE FROM USERS WHERE ID = @ID";
+                cmd.Parameters.Add(new SqlParameter("@ID", id));
+
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    User user = new User()
+                    {
+                        Id = reader.GetInt32(0),
+                        Pessoa = reader.GetInt32(1),
+                        Login = reader.GetString(2),
+                        Password = reader.GetString(3),
+                        AccessType = (AccessType)reader.GetInt32(4),
+                    };
+
+                    result = user;
+                }
+            }
+
+            return result;
+        }
+
+        public long Create()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "INSERT INTO USERS (PERSON_ID, LOGIN, PASSWORD, ACCESS_TYPE) " +
+                    $"OUTPUT INSERTED.ID VALUES (@PERSON_ID, @LOGIN, @PASSWORD, @ACCESS_TYPE)";
+
+                cmd.Parameters.Add(new SqlParameter("@PERSON_ID", Pessoa));
+                cmd.Parameters.Add(new SqlParameter("@LOGIN", Login));
+                cmd.Parameters.Add(new SqlParameter("@PASSWORD", Password));
+                cmd.Parameters.Add(new SqlParameter("@ACCESS_TYPE", AccessType));
+
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
+        public void Update()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "UPDATE USERS SET LOGIN = @LOGIN, PASSWORD = @PASSWORD, ACCESS_TYPE = @ACCESS_TYPE  WHERE ID = @ID";
+
+                cmd.Parameters.Add(new SqlParameter("@LOGIN", Login));
+                cmd.Parameters.Add(new SqlParameter("@PASSWORD", Password));
+                cmd.Parameters.Add(new SqlParameter("@ACCESS_TYPE", AccessType));
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void Delete()
+        {
+            using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM USERS WHERE ID = @ID";
+
+                cmd.Parameters.Add(new SqlParameter("@ID", Id));
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
