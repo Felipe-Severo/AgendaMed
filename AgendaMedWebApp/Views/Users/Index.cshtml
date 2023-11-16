@@ -9,8 +9,9 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Pessoa</th>
                 <th>Login</th>
-                <th>Documento Profissional</th>
+                <th>Senha</th>
                 <th>Tipo de acesso</th>
                 <th></th>
             </tr>
@@ -20,7 +21,9 @@
             {
                 <tr>
                     <td>@user.Id</td>
+                    <td>@user.Pessoa</td>
                     <td>@user.Login</td>
+                    <td>@user.Password</td>
                     <td>@user.AccessType.ToString()</td>
                     <td>
                         <a type="button" class="btn btn-warning" asp-controller="Users" asp-action="Update" asp-route-id="@user.Id">Editar</a>

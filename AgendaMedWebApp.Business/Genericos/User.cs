@@ -111,6 +111,7 @@ namespace AgendaMedWebApp.Business.Genericos
                 cmd.CommandText = "UPDATE USERS SET LOGIN = @LOGIN, PASSWORD = @PASSWORD, ACCESS_TYPE = @ACCESS_TYPE  WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@LOGIN", Login));
+                cmd.Parameters.Add(new SqlParameter("@PERSON_ID", Pessoa));
                 cmd.Parameters.Add(new SqlParameter("@PASSWORD", Password));
                 cmd.Parameters.Add(new SqlParameter("@ACCESS_TYPE", AccessType));
 

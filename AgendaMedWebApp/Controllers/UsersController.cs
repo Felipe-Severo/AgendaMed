@@ -11,10 +11,10 @@ namespace AgendaMedWebApp.Controllers
         {
             var model = new UsersModel();
 
-            //foreach (var usuario in User.Read())
-            //{
-            //    model.Users.Add(new UserModel(usuario));
-            //}
+            foreach (var usuario in Business.Genericos.User.Read())
+            {
+                model.Users.Add(new UserModel(usuario));
+            }
 
             return View(model);
         }
@@ -22,27 +22,27 @@ namespace AgendaMedWebApp.Controllers
 
         public IActionResult Add()
         {
+            ViewBag.Pessoas = new List<PessoaModel>();
+            foreach (var pessoa in Pessoa.Read())
+            {
+                ViewBag.Pessoas.Add(new PessoaModel(pessoa));
+            }
+
             return View();
         }
 
         [HttpPost]
         public IActionResult Add(UserModel userModel)
         {
-            var usuarioCadastro = new Business.Genericos.User()
-            {
-                Login = userModel.Login,
-                Password = userModel.Password,
-                AccessType = userModel.AccessType,
-            };
-
-            Business.Genericos.User.Read().Add(usuarioCadastro);
-            return RedirectToAction("Index");
+            var id = userModel.GetUser().Create();
+            return RedirectToAction("Update", new { id = id });
         }
+
 
         public IActionResult Update(long id)
         {
             var model = new UserModel();
-            Business.Genericos.User usuarioAlterar = null;
+            User usuarioAlterar = null;
 
             foreach (var usuario in Business.Genericos.User.Read())
             {
