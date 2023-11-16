@@ -2,6 +2,6 @@
 {
     public class PessoasModel
     {
-        public List<PessoaModel> Pessoas { get; set; }= new List<PessoaModel>();
+        public List<PessoaModel> Pessoas { get; set; } = new List<PessoaModel>();
     }
 }

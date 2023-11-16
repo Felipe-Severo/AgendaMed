@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AgendaMedWebApp.Models;
 using AgendaMedWebApp.Business.Genericos;
-using System.Reflection.Metadata;
 
 
 namespace AgendaMedWebApp.Controllers
@@ -10,25 +9,16 @@ namespace AgendaMedWebApp.Controllers
     {
         public IActionResult Index()
         {
-
             var model = new UsersModel();
 
-            foreach (var user in Business.Genericos.User.Users)
-            {
-                model.Users.Add(new UserModel() {
-                    Id = user.Id,
+            //foreach (var usuario in User.Read())
+            //{
+            //    model.Users.Add(new UserModel(usuario));
+            //}
 
-                    Nickname = user.Nickname,
-                    Password = user.Password,
-                    Documento = user.Documento,
-                    AccessType = user.AccessType,
-                });
-
-            }
-
-            // Redireciona para o arquivo Index.cshtml na pasta Users
             return View(model);
         }
+
 
         public IActionResult Add()
         {
@@ -40,13 +30,12 @@ namespace AgendaMedWebApp.Controllers
         {
             var usuarioCadastro = new Business.Genericos.User()
             {
-                Nickname = userModel.Nickname,
+                Login = userModel.Login,
                 Password = userModel.Password,
-                Documento = userModel.Documento,
                 AccessType = userModel.AccessType,
             };
 
-            Business.Genericos.User.Users.Add(usuarioCadastro);
+            Business.Genericos.User.Read().Add(usuarioCadastro);
             return RedirectToAction("Index");
         }
 
@@ -55,7 +44,7 @@ namespace AgendaMedWebApp.Controllers
             var model = new UserModel();
             Business.Genericos.User usuarioAlterar = null;
 
-            foreach (var usuario in Business.Genericos.User.Users)
+            foreach (var usuario in Business.Genericos.User.Read())
             {
                 if (usuario.Id == id)
                 {
@@ -70,8 +59,8 @@ namespace AgendaMedWebApp.Controllers
             }
 
             model.Id = id;
-            model.Nickname = usuarioAlterar.Nickname;
-            model.Documento = usuarioAlterar.Documento;
+            model.Login = usuarioAlterar.Login;
+            model.Password = usuarioAlterar.Password;
             model.AccessType = usuarioAlterar.AccessType;
 
             return View(model);
@@ -83,7 +72,7 @@ namespace AgendaMedWebApp.Controllers
             var model = new UserModel();
             Business.Genericos.User usuarioAlterar = null;
 
-            foreach (var usuario in Business.Genericos.User.Users)
+            foreach (var usuario in Business.Genericos.User.Read())
             {
                 if (usuario.Id == usuarioAtualizado.Id)
                 {
@@ -98,8 +87,8 @@ namespace AgendaMedWebApp.Controllers
             }
 
 
-            usuarioAlterar.Nickname = usuarioAtualizado.Nickname;
-            usuarioAlterar.Documento = usuarioAtualizado.Documento;
+            usuarioAlterar.Login = usuarioAtualizado.Login;
+            usuarioAlterar.Password = usuarioAtualizado.Password;
             usuarioAlterar.AccessType = usuarioAtualizado.AccessType;
 
             if (usuarioAtualizado.Password != "00000000" && usuarioAtualizado.Password != usuarioAlterar.Password)
@@ -115,7 +104,7 @@ namespace AgendaMedWebApp.Controllers
             var model = new UserModel();
             Business.Genericos.User usuarioAlterar = null;
 
-            foreach (var usuario in Business.Genericos.User.Users)
+            foreach (var usuario in Business.Genericos.User.Read())
             {
                 if (usuario.Id == id)
                 {
@@ -130,8 +119,8 @@ namespace AgendaMedWebApp.Controllers
             }
 
             model.Id = id;
-            model.Nickname = usuarioAlterar.Nickname;
-            model.Documento = usuarioAlterar.Documento;
+            model.Login = usuarioAlterar.Login;
+            model.Password = usuarioAlterar.Password;
             model.AccessType = usuarioAlterar.AccessType;
 
             return View(model);
@@ -143,7 +132,7 @@ namespace AgendaMedWebApp.Controllers
             var model = new UserModel();
             Business.Genericos.User usuarioExcluir = null;
 
-            foreach (var usuario in Business.Genericos.User.Users)
+            foreach (var usuario in Business.Genericos.User.Read())
             {
                 if (usuario.Id == usuarioAtualizado.Id)
                 {
@@ -157,7 +146,7 @@ namespace AgendaMedWebApp.Controllers
                 throw new Exception("Não existe usuário cadastrado com o ID informado!");
             }
 
-            Business.Genericos.User.Users.Remove(usuarioExcluir);
+            Business.Genericos.User.Read().Remove(usuarioExcluir);
 
             return RedirectToAction("Index");
         }
