@@ -11,7 +11,7 @@ namespace AgendaMed.Business.Genericos
     public class Especialidade
     {
         public long Id { get; set; }
-        public string Nome { get; set; }
+        public string NomeEspecialidade { get; set; }
 
         public static List<Especialidade> Read()
         {
@@ -21,7 +21,7 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, SPECIALTY_NAME FROM SPECIALITIES";
+                cmd.CommandText = "SELECT ID, SPECIALTY_NAME FROM SPECIALTIES";
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -29,7 +29,7 @@ namespace AgendaMed.Business.Genericos
                     Especialidade especialidade = new Especialidade()
                     {
                         Id = reader.GetInt32(0),
-                        Nome = reader.GetString(1),
+                        NomeEspecialidade = reader.GetString(1),
 
                     };
 
@@ -57,7 +57,7 @@ namespace AgendaMed.Business.Genericos
                     Especialidade especialidade = new Especialidade()
                     {
                         Id = reader.GetInt32(0),
-                        Nome = reader.GetString(1),
+                        NomeEspecialidade = reader.GetString(1),
 
                     };
 
@@ -77,7 +77,7 @@ namespace AgendaMed.Business.Genericos
                 cmd.CommandText = "INSERT INTO SPECIALITIES (SPECIALTY_NAME )" +
                                   $"VALUES (@NOME)";
 
-                cmd.Parameters.Add(new SqlParameter("@NOME", Nome));
+                cmd.Parameters.Add(new SqlParameter("@NOME", NomeEspecialidade));
 
                 cmd.ExecuteNonQuery();
             }
@@ -92,7 +92,7 @@ namespace AgendaMed.Business.Genericos
                 cmd.CommandText = "UPDATE SPECIALITIES SET NAME = @NOME WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
-                cmd.Parameters.Add(new SqlParameter("@NOME", Nome));
+                cmd.Parameters.Add(new SqlParameter("@NOME", NomeEspecialidade));
 
                 cmd.ExecuteNonQuery();
             }
