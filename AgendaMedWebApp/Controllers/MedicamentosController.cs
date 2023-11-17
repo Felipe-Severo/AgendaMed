@@ -21,7 +21,7 @@ namespace AgendaMed.Controllers
             return View(model);
         }
 
-        public IActionResult Add()
+        public IActionResult Add() 
         {
             return View();
         }
