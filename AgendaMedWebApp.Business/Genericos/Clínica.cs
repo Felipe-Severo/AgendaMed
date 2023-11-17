@@ -18,6 +18,7 @@ namespace AgendaMedWebApp.Business.Genericos
         public string Bairro { get; set; }
         public string Numero { get; set; }
         public string? Telefone { get; set; }
+        public string Cidade { get; set; }
 
         public static List<Clinica> Read()
         {
@@ -27,7 +28,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, CLINIC_NAME, CNPJ, CEP, STREET, NEIGHBORHOOD, NUMBER, PHONE_NUMBER FROM CLINICS";
+                cmd.CommandText = "SELECT ID, CLINIC_NAME, CNPJ, CEP, STREET, NEIGHBORHOOD, NUMBER, PHONE_NUMBER, CITY FROM CLINICS";
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -41,7 +42,8 @@ namespace AgendaMedWebApp.Business.Genericos
                         Rua = reader.GetString(4),
                         Bairro = reader.GetString(5),
                         Numero = reader.GetString(6),
-                        Telefone = reader.GetString(7)
+                        Telefone = reader.GetString(7),
+                        Cidade = reader.GetString(8)
                     };
 
                     result.Add(clinica);
@@ -59,7 +61,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID,CLINIC_NAME, CNPJ, CEP, STREET, NEIGHBORHOOD, NUMBER, PHONE_NUMBER FROM CLINICS WHERE ID = @ID";
+                cmd.CommandText = "SELECT ID,CLINIC_NAME, CNPJ, CEP, STREET, NEIGHBORHOOD, NUMBER, PHONE_NUMBER, CITY FROM CLINICS WHERE ID = @ID";
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
 
                 var reader = cmd.ExecuteReader();
@@ -74,7 +76,8 @@ namespace AgendaMedWebApp.Business.Genericos
                         Rua = reader.GetString(4),
                         Bairro = reader.GetString(5),
                         Numero = reader.GetString(6),
-                        Telefone = reader.GetString(7)
+                        Telefone = reader.GetString(7),
+                        Cidade = reader.GetString(8)
                     };
 
                     result = clinica;
@@ -90,8 +93,8 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO CLINICS (CLINIC_NAME, CNPJ, CEP, STREET, NEIGHBORHOOD, NUMBER, PHONE_NUMBER )" +
-                                  $"OUTPUT INSERTED.ID VALUES (@CLINIC_NAME, @CNPJ, @CEP, @STREET, @NEIGHBORHOOD, @NUMBER, @PHONE_NUMBER )";
+                cmd.CommandText = "INSERT INTO CLINICS (CLINIC_NAME, CNPJ, CEP, STREET, NEIGHBORHOOD, NUMBER, PHONE_NUMBER, CITY )" +
+                                  $"OUTPUT INSERTED.ID VALUES (@CLINIC_NAME, @CNPJ, @CEP, @STREET, @NEIGHBORHOOD, @NUMBER, @PHONE_NUMBER, @CITY )";
 
                 cmd.Parameters.Add(new SqlParameter("@CLINIC_NAME", Nome));
                 cmd.Parameters.Add(new SqlParameter("@CNPJ", CNPJ));
@@ -100,6 +103,7 @@ namespace AgendaMedWebApp.Business.Genericos
                 cmd.Parameters.Add(new SqlParameter("@NEIGHBORHOOD", Bairro));
                 cmd.Parameters.Add(new SqlParameter("@NUMBER", Numero));
                 cmd.Parameters.Add(new SqlParameter("@PHONE_NUMBER", Telefone));
+                cmd.Parameters.Add(new SqlParameter("@CITY", Cidade));
 
                 return (int)cmd.ExecuteScalar();
             }
@@ -111,7 +115,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE CLINICS SET CLINIC_NAME = @CLINIC_NAME, CNPJ = @CNPJ, CEP = @CEP, STREET = @STREET, NEIGHBORHOOD = @NEIGHBORHOOD, NUMBER = @NUMBER, PHONE_NUMBER = @PHONE_NUMBER WHERE ID = @ID";
+                cmd.CommandText = "UPDATE CLINICS SET CLINIC_NAME = @CLINIC_NAME, CNPJ = @CNPJ, CEP = @CEP, STREET = @STREET, NEIGHBORHOOD = @NEIGHBORHOOD, NUMBER = @NUMBER, PHONE_NUMBER = @PHONE_NUMBER, CITY = @CITY WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
                 cmd.Parameters.Add(new SqlParameter("@CLINIC_NAME", Nome));
@@ -121,6 +125,7 @@ namespace AgendaMedWebApp.Business.Genericos
                 cmd.Parameters.Add(new SqlParameter("@NEIGHBORHOOD", Bairro));
                 cmd.Parameters.Add(new SqlParameter("@NUMBER", Numero));
                 cmd.Parameters.Add(new SqlParameter("@PHONE_NUMBER", Telefone));
+                cmd.Parameters.Add(new SqlParameter("@CITY", Cidade));
 
                 cmd.ExecuteNonQuery();
             }
