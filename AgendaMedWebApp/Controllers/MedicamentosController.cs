@@ -18,7 +18,7 @@ namespace AgendaMed.Controllers
             {
                 model.Medicamentos.Add(new MedicamentoModel(medicamento));
             }
-            return View();
+            return View(model);
         }
 
         public IActionResult Add()
