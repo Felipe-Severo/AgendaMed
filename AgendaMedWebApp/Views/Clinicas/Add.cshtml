@@ -1,0 +1,90 @@
+﻿@model PessoaModel
+@{
+    ViewData["Title"] = "Clínicas";
+}
+<div>
+    <h3>Cadastro de Empresas</h3>
+
+    <form asp-controller="Clinicas" asp-action="Add" method="post">
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Email</label>
+                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">Senha</label>
+                <input type="password" class="form-control" id="inputPassword4" placeholder="Senha">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputCompanyName">Nome Fantasia</label>
+            <input type="text" class="form-control" id="inputCompanyName" placeholder="Informe o Nome Fantásia">
+        </div>
+        <div class="form-group">
+            <label for="inputAddress">Endereço</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="Informe o logradouro.">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCity">Cidade</label>
+                <input type="text" class="form-control" id="inputCity">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEstado">Estado</label>
+                <select id="inputEstado" class="form-control">
+                    <option selected>Escolher...</option>
+                    <option>...</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputCEP">CEP</label>
+                <input type="text" class="form-control" id="inputCEP">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                    Clique em mim
+                </label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+
+
+        @*<div class="form-group">
+        <label for="CNPJ">CNPJ</label>
+        <input type="text" id="name_completo" class="form-control" asp-for="Nome" />
+        </div>
+        <div class="form-group">
+        <label for="sobrenome">Sobrenome</label>
+        <input type="text" id="sobrenome" class="form-control" asp-for="Sobrenome" />
+        </div>
+
+        <div class="form-group">
+        <label for="data_nascimento">Data de nascimento</label>
+        <input type="date" id="data_nascimento" class="form-control" asp-for="DataNascimento" required />
+        </div>
+
+        <div class="form-group">
+        <label for="CPF">CPF</label>
+        <input type="text" id="CPF" class="form-control" asp-for="Cpf" />
+        </div>
+
+        <div class="form-group">
+        <label for="CRM">CRM</label>
+        <input type="text" id="CRM" class="form-control" asp-for="Crm" />
+        </div>
+
+        <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input type="text" id="telefone" class="form-control" asp-for="Telefone"></input>
+        </div>
+
+        <br />
+        <button type="submit" class="btn btn-primary float-end">Salvar</button>
+        <a class="btn btn-secondary float-end" asp-controller="Pessoas" asp-action="Index">Voltar</a>
+        *@
+    </form>
+</div>
