@@ -109,18 +109,18 @@ namespace AgendaMedWebApp.Business.Genericos
             return result;
         }
 
-        public void Create()
+        public long Create()
         {
             using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = "INSERT INTO PRESCRIPTIONS (PRESCRIPTION_DATE)" +
-                                  $"VALUES (@PRESCRIPTION_DATE)";
+                                   $"OUTPUT INSERTED.ID VALUES (@PRESCRIPTION_DATE)";
 
                 cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_DATE", DataPrescricao));
-            
-                cmd.ExecuteNonQuery();
+
+                return (long)cmd.ExecuteScalar();
             }
         }
 
