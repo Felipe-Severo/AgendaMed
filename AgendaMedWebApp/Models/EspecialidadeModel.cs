@@ -6,7 +6,7 @@ namespace AgendaMedWebApp.Models
     public class EspecialidadeModel
     {
         public long Id { get; set; }
-        public string NomeEspecialidade { get; set; }
+        public string NomeEspecialidade { get; set; } = string.Empty;
         
         public EspecialidadeModel()
         {

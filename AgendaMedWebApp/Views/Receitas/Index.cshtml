@@ -1,10 +1,51 @@
-﻿@model ReceitasModel    
-
+﻿@model ReceitasModel
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
-<div class="text-left">
-    <h3>Medicamentos:</h3>
+<div class="text-center">
+    <h3>Receituário</h3>
+    <a type="button" class="btn btn-primary float-end" asp-controller="Receitas" asp-action="Add">Novo</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Data Prescrição</th>
+                <th>Medicamento</th>
+                <th>Dosagem</th>
+                <th>Intervalo entre a Medicação / horas</th>
+                <th>Tomar a medicação durante / dias</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var receita in Model.Receitas)
+            {
+
+
+
+                <tr>
+                    <td>@receita.DataPrescricao</td>
+                    <td>@receita.Medicamento</td>
+                    <td>@receita.Dosagem</td>
+                    <td>@receita.PosologiaHora</td>
+                    <td>@receita.PosologiaDias</td>
+                  
+                    <td>
+                        <div>
+                            <a type="button" class="btn btn-warning" asp-route-id="@receita.Id" asp-controller="Receitas" asp-action="Update">Editar</a>
+                            <a type="button" class="btn btn-danger" asp-route-id="@receita.Id" asp-controller="Receitas" asp-action="Delete">Excluir</a>
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            }
+
+        </tbody>
+
+
+    </table>
 </div>

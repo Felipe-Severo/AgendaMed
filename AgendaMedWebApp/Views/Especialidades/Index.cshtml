@@ -1,30 +1,38 @@
-﻿@model EspecialidadeModel
+﻿@model EspecialidadesModel
 @{
 
 }
-<form action="http://formmail.kinghost.net/formmail.cgi" method="POST">
-    <input type="hidden" name="recipient" value="testeiseuemail@gmail.com"> <!-- Pode ser qualquer endereço de email -->
-    <input type="hidden" name="redirect" value="http://seudominio"> <!-- Após o envio, o usuário será redirecionado para a página configurada aqui -->
-    <input type="hidden" name="subject" value="teste de assunto">  <!-- Assunto da mensagem -->
-    <input type="hidden" name="email" value="email@doseudominio">   <!-- Deve ser uma conta de email ativa em seu domínio -->
+<div class="text-center">
+    <h3>Lista de Especialidades</h3>
+    <a type="button" class="btn btn-primary float-end" asp-controller="Especialidades" asp-action="Add">Cadastre nova especialidade</a>
 
-    <p>
-        Nome:<br />
-        <input type="text" size="30" name="nome">
-    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome da especialidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var especialidade in Model.Especialidades)
+            {
+                <tr>
+                    <td>@especialidade.Id</td>
+                    <td>@especialidade.NomeEspecialidade</td>
+                  
+                    <td>
+                        <div>
+                            <a type="button" class="btn btn-warning" asp-route-id="@especialidade.Id" asp-controller="Especialidades" asp-action="Update">Editar</a>
+                            <a type="button" class="btn btn-danger" asp-route-id="@especialidade.Id" asp-controller="Especialidades" asp-action="Delete">Excluir</a>
+                        </div>
 
-    <p>
-        E-mail:<br />
-        <input type="text" size="30" name="replyto">
-    </p>
+                    </td>
 
-    <p>
-        Comentários:<br />
-        <input type="text" size="35" name="Comentarios">
-    </p>
+                </tr>
+            }
 
-    <p>
-        <input type="submit" name="BTEnvia" value="Enviar">
-        <input type="reset" name="BTApaga" value="Apagar">
-    </p>
-</form>
+        </tbody>
+
+
+    </table>
+</div>
