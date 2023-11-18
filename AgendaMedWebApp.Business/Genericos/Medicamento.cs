@@ -39,7 +39,7 @@ namespace AgendaMed.Business.Genericos
                         Id = reader.GetInt32(0),
                         Nome = reader.GetString(1),
                         Descricao = reader.GetString(2),
-                        Dosagem = reader.GetDecimal(3),
+                        Dosagem = reader.GetInt32(3),
 
                     };
 
