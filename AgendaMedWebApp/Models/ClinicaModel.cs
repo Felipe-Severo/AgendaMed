@@ -1,6 +1,6 @@
 ﻿using AgendaMedWebApp.Business.Genericos;
 
-namespace AgendaMed.Models
+namespace AgendaMedWebApp.Models
 {
     public class ClinicaModel
     {
