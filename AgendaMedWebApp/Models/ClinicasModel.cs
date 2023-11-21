@@ -1,5 +1,4 @@
-﻿using AgendaMed.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaMedWebApp.Models
 {

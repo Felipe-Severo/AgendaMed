@@ -1,11 +1,10 @@
-﻿using AgendaMed.Models;
-using AgendaMedWebApp.Business.Genericos;
+﻿using AgendaMedWebApp.Business.Genericos;
 using AgendaMedWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaMedWebApp.Controllers
 {
-    public class ClinicasController1 : Controller
+    public class ClinicasController : Controller
     {
         public IActionResult Index()
         {
