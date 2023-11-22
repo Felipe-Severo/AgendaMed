@@ -69,7 +69,7 @@ namespace AgendaMed.Business.Genericos
                         Id = reader.GetInt32(0),
                         Nome = reader.GetString(1),
                         Descricao = reader.GetString(2),
-                        Dosagem = reader.GetDecimal(3),
+                        Dosagem = reader.GetInt32(3),
                     };
 
                     result = medicamento;
@@ -102,7 +102,7 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE MEDICATIONS SET NAME = @NOME, DESCRIPTION = @DESCRICAO, DOSAGE = @DOSAGEM WHERE ID = @ID";
+                cmd.CommandText = "UPDATE MEDICATIONS SET MEDICATION_NAME = @NOME, DESCRIPTION = @DESCRICAO, DOSAGE = @DOSAGEM WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
                 cmd.Parameters.Add(new SqlParameter("@NOME", Nome));
