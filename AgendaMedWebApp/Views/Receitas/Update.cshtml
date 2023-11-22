@@ -1,39 +1,33 @@
-﻿@model PessoaModel
+﻿@model ReceitaModel
 @{
-    ViewData["Title"] = "Pessoa";
+    ViewData["Title"] = "Receita";
 }
 <div>
-    <h3>Update de pessoas</h3>
-    <form asp-controller="Pessoas" asp-action="Update" method="post">
+    <h3>Update de Receita</h3>
+    <form asp-controller="Receitas" asp-action="Update" method="post">
         <div class="form-group">
-            <label for="name">Nome</label>
-            <input type="text" id="name_completo" class="form-control" asp-for="Nome" />
-        </div>
+            <label for="date_prescription">Data da Prescrição</label>
+            <input type="date" id="date_prescription" class="form-control" asp-for="DataPrescricao" />
+        </div>@*
         <div class="form-group">
-            <label for="sobrenome">Sobrenome</label>
-            <input type="text" id="sobrenome" class="form-control" asp-for="Sobrenome" />
-        </div>
-
-        <div class="form-group">
-            <label for="data_nascimento">Data de nascimento</label>
-            <input type="text" id="data_nascimento" class="form-control" asp-for="DataNascimento" />
+            <label for="medicamento">Medicamento</label>
+            <input type="text" id="medicamento" class="form-control" asp-for="Medicamento" />
         </div>
 
         <div class="form-group">
-            <label for="CPF">CPF</label>
-            <input type="text" id="CPF" class="form-control" asp-for="Cpf" />
+            <label for="dosagem">Dosagem</label>
+            <input type="text" id="dosagem" class="form-control" asp-for="Dosagem" />
         </div>
 
         <div class="form-group">
-            <label for="CRM">CRM</label>
-            <input type="text" id="CRM" class="form-control" asp-for="Crm" />
+            <label for="posologia_hora">Posologia / Hora</label>
+            <input type="text" id="posologia_hora" class="form-control" asp-for="PosologiaHora" />
         </div>
 
         <div class="form-group">
-            <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" class="form-control" asp-for="Telefone"></input>
-        </div>
-
+            <label for="posologia_dia">Posologia / Dias</label>
+            <input type="text" id="posologia_dia" class="form-control" asp-for="PosologiaDias" />
+        </div>*@
         <br />
         <button type="submit" class="btn btn-primary float-end">Salvar</button>
         <a class="btn btn-secondary float-end" asp-controller="Pessoas" asp-action="Index">Voltar</a>
