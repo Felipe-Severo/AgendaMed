@@ -48,7 +48,7 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, SPECIALTY_NAME FROM SPECIALITIES WHERE ID = @ID";
+                cmd.CommandText = "SELECT ID, SPECIALTY_NAME FROM SPECIALTIES WHERE ID = @ID";
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
 
                 var reader = cmd.ExecuteReader();
@@ -68,18 +68,18 @@ namespace AgendaMed.Business.Genericos
             return result;
         }
 
-        public void Create()
+        public long Create()
         {
             using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO SPECIALITIES (SPECIALTY_NAME )" +
-                                  $"VALUES (@NOME)";
+                cmd.CommandText = "INSERT INTO SPECIALTIES (SPECIALTY_NAME )" +
+                                  $"OUTPUT INSERTED.ID VALUES (@NOME)";
 
                 cmd.Parameters.Add(new SqlParameter("@NOME", NomeEspecialidade));
 
-                cmd.ExecuteNonQuery();
+                return (int)cmd.ExecuteScalar();
             }
         }
 
@@ -89,10 +89,10 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE SPECIALITIES SET NAME = @NOME WHERE ID = @ID";
+                cmd.CommandText = "UPDATE SPECIALTIES SET SPECIALTY_NAME = @SPECIALTY_NAME WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
-                cmd.Parameters.Add(new SqlParameter("@NOME", NomeEspecialidade));
+                cmd.Parameters.Add(new SqlParameter("@SPECIALTY_NAME", NomeEspecialidade));
 
                 cmd.ExecuteNonQuery();
             }
@@ -104,7 +104,7 @@ namespace AgendaMed.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM SPECIALITIES WHERE ID = @ID";
+                cmd.CommandText = "DELETE FROM SPECIALTIES WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
                 cmd.ExecuteNonQuery();

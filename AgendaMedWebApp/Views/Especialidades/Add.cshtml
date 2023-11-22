@@ -3,21 +3,17 @@
     ViewData["Title"] = "Especialidade";
 }
 <div>
-    <h3>Cadastro de pessoas</h3>
+    <h3>Cadastro de Especialidades</h3>
 
     <form asp-controller="Especialidades" asp-action="Add" method="post">
         <div class="form-group">
-            <label for="especialidade">Especialidade</label>
-            <select id="especialidade" class="form-select" asp-for="NomeEspecialidade">
-                @foreach (PessoaModel pessoa in ViewBag.Especialidades) //não está funcionando
-                {
-                    <option value="@pessoa.Id">@pessoa.Nome</option>
-                }
-            </select>
+            <label for="especialidade">Especialidades</label>
+            <input type="text" id="especialidade" class="form-control" asp-for="NomeEspecialidade" />
         </div>
-
+       
         <br />
         <button type="submit" class="btn btn-primary float-end">Salvar</button>
-        <a class="btn btn-secondary float-end" asp-controller="Pessoas" asp-action="Index">Voltar</a>
+        <a class="btn btn-secondary float-end" asp-controller="Especialidade" asp-action="Index">Voltar</a>
     </form>
+
 </div>

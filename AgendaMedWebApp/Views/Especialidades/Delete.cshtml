@@ -1,5 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model EspecialidadeModel
+<h3>Confirmação de exclusão</h3>
+<form asp-controller="Especialidades" asp-action="Delete" method="post">
+    <p>Você está prestes a realizar um operação de exclusão no sistema, deseja continuar?</p>
+    <a type="button" class="btn btn-danger" asp-controller="Especialidades" asp-action="Index">Não</a>
+    <button type="submit" class="btn btn-primary">Sim</button>
+</form>

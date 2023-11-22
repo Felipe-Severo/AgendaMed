@@ -39,7 +39,7 @@ namespace AgendaMed.Controllers
         [HttpPost]
         public IActionResult Update(EspecialidadeModel especialidadeModel)
         {
-            especialidadeModel.GetEspecialidade().Update(especialidadeModel.Id);
+            especialidadeModel.GetEspecialidade().Update();
             return RedirectToAction("Index");
         }
 

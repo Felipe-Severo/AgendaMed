@@ -19,12 +19,12 @@ namespace AgendaMedWebApp.Models
             NomeEspecialidade = especialidade.NomeEspecialidade;
         }
 
-        public Pessoa GetEspecialidade()
+        public Especialidade GetEspecialidade()
         {
-            return new Pessoa()
+            return new Especialidade()
             {
                 Id = Id,
-                Nome = NomeEspecialidade,
+                NomeEspecialidade = NomeEspecialidade,
             };
         }
     }
