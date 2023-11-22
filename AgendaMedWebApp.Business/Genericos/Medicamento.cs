@@ -34,7 +34,7 @@ namespace AgendaMed.Business.Genericos
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Medicamento medicamento = new Medicamento()
+                    Medicamento medicamento = new Medicamento()  
                     {
                         Id = reader.GetInt32(0),
                         Nome = reader.GetString(1),
