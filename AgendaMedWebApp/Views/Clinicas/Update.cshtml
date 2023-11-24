@@ -1,41 +1,99 @@
-﻿@model PessoaModel
+﻿@model ClinicaModel
 @{
-    ViewData["Title"] = "Pessoa";
+    ViewData["Title"] = "Clinica";
 }
 <div>
-    <h3>Update de pessoas</h3>
-    <form asp-controller="Pessoas" asp-action="Update" method="post">
-        <div class="form-group">
-            <label for="name">Nome</label>
-            <input type="text" id="name_completo" class="form-control" asp-for="Nome" />
+    <h3>Update de clinicas</h3>
+    <form asp-controller="Clinicas" asp-action="Update" method="post">
+        <div class="form-group col-md-6">
+            <label for="nome_clinica">Nome da clinica</label>
+            <input type="text" class="form-control" id="nome_clinica" asp-for="Nome" placeholder="Informe o Nome Fantasia">
+            <br />
         </div>
-        <div class="form-group">
-            <label for="sobrenome">Sobrenome</label>
-            <input type="text" id="sobrenome" class="form-control" asp-for="Sobrenome" />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="cnpj">CNPJ</label>
+                <input type="text" class="form-control" id="cnpj" asp-for="CNPJ" placeholder="00. 000. 000/0001-00.">
+                <br />
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="data_nascimento">Data de nascimento</label>
-            <input type="text" id="data_nascimento" class="form-control" asp-for="DataNascimento" />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="cep">CEP</label>
+                <input type="text" class="form-control" id="cep" asp-for="Cep" placeholder="00.000-00">
+                <br />
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="CPF">CPF</label>
-            <input type="text" id="CPF" class="form-control" asp-for="Cpf" />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="tel">CEP</label>
+                <input type="text" class="form-control" id="tel" asp-for="Telefone" placeholder="(00) 90000-0000">
+                <br />
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="CRM">CRM</label>
-            <input type="text" id="CRM" class="form-control" asp-for="Crm" />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="rua">Rua</label>
+                <input type="text" class="form-control" id="rua" asp-for="Rua" placeholder="Digite o seu logradouro">
+                <br />
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" class="form-control" asp-for="Telefone"></input>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="bairro">Bairro</label>
+                <input type="text" class="form-control" id="bairro" asp-for="Bairro" placeholder="Digite o seu bairro">
+                <br />
+            </div>
         </div>
-
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="numero">Nº</label>
+                <input type="number" class="form-control" id="numero" asp-for="Numero" placeholder="Digite o numero">
+                <br />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCity">Cidade</label>
+                <input type="text" class="form-control" id="inputCity" asp-for="Cidade">
+                <br />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEstado">UF</label>
+                <select id="inputEstado" class="form-control" asp-for="UF">
+                    <option selected>Selecione</option>
+                    <option value="AC">AC</option>
+                    <option value="AL">AL</option>
+                    <option value="AP">AP</option>
+                    <option value="AM">AM</option>
+                    <option value="BA">BA</option>
+                    <option value="CE">CE</option>
+                    <option value="ES">ES</option>
+                    <option value="GO">GO</option>
+                    <option value="MA">MA</option>
+                    <option value="MT">MT</option>
+                    <option value="MS">MS</option>
+                    <option value="MG">MG</option>
+                    <option value="PA">PA</option>
+                    <option value="PB">PB</option>
+                    <option value="PR">PR</option>
+                    <option value="PE">PE</option>
+                    <option value="PI">PI</option>
+                    <option value="RJ">RJ</option>
+                    <option value="RN">RN</option>
+                    <option value="RS">RS</option>
+                    <option value="RO">RO</option>
+                    <option value="RR">RR</option>
+                    <option value="SC">SC</option>
+                    <option value="SP">SP</option>
+                    <option value="SE">SE</option>
+                    <option value="TO">TO</option>
+                </select>
+            </div>
+            <br />
+        </div>
         <br />
-        <button type="submit" class="btn btn-primary float-end">Salvar</button>
-        <a class="btn btn-secondary float-end" asp-controller="Pessoas" asp-action="Index">Voltar</a>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a class="btn btn-secondary" asp-controller="Clinicas" asp-action="Index">Voltar</a>>
     </form>
 </div>
