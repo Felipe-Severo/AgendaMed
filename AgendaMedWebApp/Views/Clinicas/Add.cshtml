@@ -7,90 +7,110 @@
 
     <form asp-controller="Clinicas" asp-action="Add" method="post">
 
-        <div class="form-group">
-            <label for="inputCompanyName">Nome</label>
-            <input type="text" class="form-control" id="inputCompanyName" placeholder="Informe o Nome Fantasia">
+        <div class="form-group col-md-6">
+            <label for="nome_clinica">Nome da clinica</label>
+            <input type="text" class="form-control" id="nome_clinica" asp-for="Nome" placeholder="Informe o Nome Fantasia">
             <br />
-
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputEmail4">Email</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                <label for="cnpj">CNPJ</label>
+                <input type="text" class="form-control" id="cnpj" asp-for="CNPJ" placeholder="00. 000. 000/0001-00.">
+                <br />
+            </div>    
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="cep">CEP</label>
+                <input type="text" class="form-control" id="cep" asp-for="Cep" placeholder="00.000-00">
                 <br />
             </div>
-            
         </div>
-        
-        <div class="form-group">
-            <label for="inputAddress">Endereço</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="Informe o logradouro">
-            <br />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="tel">CEP</label>
+                <input type="text" class="form-control" id="tel" asp-for="Telefone" placeholder="(00) 90000-0000">
+                <br />
+            </div>
         </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="rua">Rua</label>
+                <input type="text" class="form-control" id="rua" asp-for="Rua" placeholder="Digite o seu logradouro">
+                <br />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="bairro">Bairro</label>
+                <input type="text" class="form-control" id="bairro" asp-for="Bairro" placeholder="Digite o seu bairro">
+                <br />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="numero">Nº</label>
+                <input type="number" class="form-control" id="numero" asp-for="Numero" placeholder="Digite o numero">
+                <br />
+            </div>
+        </div>
+        @* <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCity">Cidade</label>
+                <input type="text" class="form-control" id="inputCity" asp-for="Cidade" placeholder="Digite a cidade">
+                <br />
+            </div>
+        </div> *@
+        @* <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="uf">Nº</label>
+                <input type="text" class="form-control" id="uf" asp-for="UF" placeholder="Digite o ESTADO">
+                <br />
+            </div>
+        </div> *@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputCity">Cidade</label>
-                <input type="text" class="form-control" id="inputCity">
+                <input type="text" class="form-control" id="inputCity" asp-for="Cidade">
                 <br />
             </div>
             <div class="form-group col-md-4">
-                <label for="inputEstado">Estado</label>
-                <select id="inputEstado" class="form-control">
-                    <option selected>Escolher</option>
-                    <option>AC</option>
-                    <option>AL</option>
-                    <option>AP</option>
-                    <option>AM</option>
-                    <option>BA</option>
-                    <option>CE</option>
-                    <option>ES</option>
-                    <option>GO</option>
-                    <option>MA</option>
-                    <option>MT</option>
-                    <option>MS</option>
-                    <option>MG</option>
-                    <option>PA</option>
-                    <option>PB</option>
-                    <option>PR</option>
-                    <option>PE</option>
-                    <option>PI</option>
-                    <option>RJ</option>
-                    <option>RN</option>
-                    <option>RS</option>
-                    <option>RO</option>
-                    <option>RR</option>
-                    <option>SC</option>
-                    <option>SP</option>
-                    <option>SE</option>
-                    <option>TO</option>
-                   
-
-                    
+                <label for="inputEstado">UF</label>
+                <select id="inputEstado" class="form-control" asp-for="UF">
+                    <option selected>Selecione</option>
+                    <option value="AC">AC</option>
+                    <option value="AL">AL</option>
+                    <option value="AP">AP</option>
+                    <option value="AM">AM</option>
+                    <option value="BA">BA</option>
+                    <option value="CE">CE</option>
+                    <option value="ES">ES</option>
+                    <option value="GO">GO</option>
+                    <option value="MA">MA</option>
+                    <option value="MT">MT</option>
+                    <option value="MS">MS</option>
+                    <option value="MG">MG</option>
+                    <option value="PA">PA</option>
+                    <option value="PB">PB</option>
+                    <option value="PR">PR</option>
+                    <option value="PE">PE</option>
+                    <option value="PI">PI</option>
+                    <option value="RJ">RJ</option>
+                    <option value="RN">RN</option>
+                    <option value="RS">RS</option>
+                    <option value="RO">RO</option>
+                    <option value="RR">RR</option>
+                    <option value="SC">SC</option>
+                    <option value="SP">SP</option>
+                    <option value="SE">SE</option>
+                    <option value="TO">TO</option>
                 </select>
             </div>
             <br />
-            <div class="form-group col-md-2">
-                <label for="inputCEP">CEP</label>
-                <input type="text" class="form-control" id="inputCEP">
-                <br />
-
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputPassword4">Senha</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="Senha">
-                <br />
-                <br />
-            </div>
         </div>
-        <div class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                    Clique em mim
-                </label>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Entrar</button>
+        
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a class="btn btn-secondary" asp-controller="Clinicas" asp-action="Index">Voltar</a>
 
     </form>
 </div>
