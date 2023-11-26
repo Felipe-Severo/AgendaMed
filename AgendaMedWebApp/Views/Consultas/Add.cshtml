@@ -1,16 +1,59 @@
-﻿@model ConsultasModel
+﻿@model ConsultaModel
 
 @{
-    ViewData ["Title"] = "Agendar Consulta";
+    ViewData ["Title"] = "Consulta";
 }
 <div>
     <h3>Agendamento de consultas</h3>
-
-        @* Adicione aqui os campos restantes para o agendamento da consulta *@
-        
+    <form asp-controller="Consultas" asp-action="Add" method="post">
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Agendar" class="btn btn-default" />
-            </div>
+            <label for="medico">Médico</label>
+            <select id="medico" class="form-select" asp-for="Medico">
+                @foreach (PessoaModel pessoa in ViewBag.Pessoas)
+                {
+                    <option value="@pessoa.Id">@pessoa.Nome</option>
+                }
+            </select>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="paciente">Paciente</label>
+            <select id="paciente" class="form-select" asp-for="Paciente">
+                @foreach (PessoaModel pessoa in ViewBag.Pessoas)
+                {
+                    <option value="@pessoa.Id">@pessoa.Nome</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            @* Aqui só mostrará as datas disponíveis para o médico escolhido / A FAZER *@
+            <label for="data_consulta">Data da consulta</label>
+            <input type="date" id="data_consulta" class="form-control" asp-for="DataConsulta" required />
+        </div>
+
+        <div class="form-group">
+            <label for="sintomas">Sintomas</label>
+            <input type="text" id="sintomas" class="form-control" asp-for="Sintomas" />
+        </div>
+
+        <div class="form-group">
+            <label for="recomendacao">Resomendações</label>
+            <input type="text" id="recomendacao" class="form-control" asp-for="Recomendacoes" />
+        </div>
+
+        <div class="form-group">
+            <label for="exames">Exames</label>
+            <input type="text" id="exames" class="form-control" asp-for="Exames" />
+        </div>
+        <div class="form-group">
+            @* Aqui só mostrará as datas disponíveis para o médico escolhido / A FAZER *@
+            <label for="data_agendamento">Data do agendamento</label>
+            
+            <input type="date" id="data_agendamento" class="form-control" asp-for="DataAgendamento" />
+        </div>
+        @* Aqui falta ver como vamo usar o status da consulta / A FAZER *@
+        <br />
+        <button type="submit" class="btn btn-primary float-end">Salvar</button>
+        <a class="btn btn-secondary float-end" asp-controller="Consultas" asp-action="Index">Voltar</a>
+    </form>
+</div>

@@ -10,7 +10,9 @@
             <tr>
                 <th>ID</th>
                 <th>Médico</th>
+                <th>Paciente</th>
                 <th>Data da consulta</th>
+                <th>Sintomas</th>
             </tr>
         </thead>
         <tbody>
@@ -19,7 +21,10 @@
                 <tr>
                     <td>@consulta.Id</td>
                     <td>@consulta.Medico</td>
-                    <td>@consulta.DataConsulta</td>
+                    <td>@consulta.Paciente</td>
+                    <td>@consulta.DataConsulta.ToString("dd/MM/yyyy")</td>
+                    <td>@consulta.Sintomas</td>
+
                     <td>
                         <a type="button" class="btn btn-warning" asp-controller="Consultas" asp-action="Update" asp-route-id="@consulta.Id">Editar</a>
                         <a type="button" class="btn btn-danger" asp-controller="Consultas" asp-action="Delete" asp-route-id="@consulta.Id">Excluir</a>

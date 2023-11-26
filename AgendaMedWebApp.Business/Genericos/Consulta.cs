@@ -49,18 +49,17 @@ namespace AgendaMedWebApp.Business.Genericos
                     Consulta consulta = new Consulta()
                     {
                         Id = reader.GetInt32(0),
-                        Medico = reader.GetInt32(1),
-                        Paciente = reader.GetInt32(2),
-                        Receita = reader.GetInt32(3),
+                        Medico = reader.IsDBNull(1) ? 0 : reader.GetInt32(1), // Verifica se o valor é nulo
+                        Paciente = reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
+                        Receita = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
                         DataConsulta = reader.GetDateTime(4),
-                        Sintomas = reader.GetString(5),
-                        Exames = reader.GetString(6),
-                        Recomendacoes = reader.GetString(7),
-                        StatusConsulta = (StatusConsulta) reader.GetInt32(8),
+                        Sintomas = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
+                        Exames = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+                        Recomendacoes = reader.IsDBNull(7) ? string.Empty : reader.GetString(7),
+                        StatusConsulta = (StatusConsulta)reader.GetInt32(8),
                         DataAgendamento = reader.GetDateTime(9),
-                        
-                       
                     };
+                    
 
                     result.Add(consulta);
                 }
@@ -77,7 +76,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON FROM APPOINTMENTS WHERE ID = @ID";
+                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATETIME, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON FROM APPOINTMENTS WHERE ID = @ID";
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
 
                 var reader = cmd.ExecuteReader();
@@ -104,29 +103,26 @@ namespace AgendaMedWebApp.Business.Genericos
             return result;
         }
 
-        public void Create()
+        public long Create()
         {
             using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO APPOINTMENTS (DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATE, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON )" +
-                                  $"VALUES (@MEDICO_ID, @PACIENTE_ID, @RECEITA_ID, @DATA_CONSULTA, @SINTOMAS, @EXAMES, @RECOMENDACOES, @STATUS_DA_CONSULTA, @DATA_AGENDAMENTO)";
+                cmd.CommandText = "INSERT INTO APPOINTMENTS (DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATETIME, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON )" +
+                                  $"OUTPUT INSERTED.ID VALUES (@DOCTOR_ID, @PATIENT_ID, @PRESCRIPTION_ID, @APPOINTMENT_DATETIME, @SYMPTOMS, @TESTS, @RECOMMENDATIONS, @APPOINTMENT_STATUS, @CREATED_ON)";
 
-                cmd.Parameters.Add(new SqlParameter("@MEDICO_ID", Medico));
-                cmd.Parameters.Add(new SqlParameter("@PACIENTE_ID", Paciente));
-                cmd.Parameters.Add(new SqlParameter("@RECEITA_ID", Receita));
-                cmd.Parameters.Add(new SqlParameter("@DATA_CONSULTA", DataConsulta));
-                cmd.Parameters.Add(new SqlParameter("@SINTOMAS", Sintomas));
-                cmd.Parameters.Add(new SqlParameter("@EXAMES", Exames));
-                cmd.Parameters.Add(new SqlParameter("@RECOMENDACOES", Recomendacoes));
-                cmd.Parameters.Add(new SqlParameter("@STATUS_DA_CONSULTA", StatusConsulta));
-                cmd.Parameters.Add(new SqlParameter("@DATA_AGENDAMENTO", DataAgendamento));
+                cmd.Parameters.Add(new SqlParameter("@DOCTOR_ID", Medico));
+                cmd.Parameters.Add(new SqlParameter("@PATIENT_ID", Paciente));
+                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_ID", Receita));
+                cmd.Parameters.Add(new SqlParameter("@APPOINTMENT_DATETIME", DataConsulta));
+                cmd.Parameters.Add(new SqlParameter("@SYMPTOMS", Sintomas));
+                cmd.Parameters.Add(new SqlParameter("@TESTS", Exames));
+                cmd.Parameters.Add(new SqlParameter("@RECOMMENDATIONS", Recomendacoes));
+                cmd.Parameters.Add(new SqlParameter("@APPOINTMENT_STATUS", StatusConsulta));
+                cmd.Parameters.Add(new SqlParameter("@CREATED_ON", DataAgendamento));
 
-
-
-
-                cmd.ExecuteNonQuery();
+                return (int)cmd.ExecuteScalar();
             }
         }
 
@@ -136,16 +132,18 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE APPOINTMENTS SET DOCTOR_ID = @MEDICO_ID, PATIENT_ID = @PACIENTE_ID, RECEITA_ID = @RECEITA_ID, DATA_CONSULTA = @DATA_CONSULTA, HORA_CONSULTA = @HORA_CONSULTA, SINTOMAS = @SINTOMAS, EXAMES = @EXAMES, RECOMENDACOES = @RECOMENDACOES, STATUS_DA_CONSULTA = @STATUS_DA_CONSULTA, DATA_AGENDAMENTO = @CREATED_ON WHERE ID = @ID";
+                cmd.CommandText = "UPDATE APPOINTMENTS SET DOCTOR_ID = @DOCTOR_ID, PATIENT_ID = @PATIENT_ID, PRESCRIPTION_ID = @PRESCRIPTION_ID, APPOINTMENT_DATETIME = @APPOINTMENT_DATETIME," +
+                    $"SYMPTOMS = @SYMPTOMS, TESTS = @TESTS, RECOMMENDATIONS = @RECOMMENDATIONS, APPOINTMENT_STATUS = @APPOINTMENT_STATUS, CREATED_ON = @CREATED_ON WHERE ID = @ID";
 
-                cmd.Parameters.Add(new SqlParameter("@MEDICO_ID", Medico));
-                cmd.Parameters.Add(new SqlParameter("@PACIENTE_ID", Paciente));
-                cmd.Parameters.Add(new SqlParameter("@RECEITA_ID", Receita));
-                cmd.Parameters.Add(new SqlParameter("@DATA_CONSULTA", DataConsulta));
-                cmd.Parameters.Add(new SqlParameter("@SINTOMAS", Sintomas));
-                cmd.Parameters.Add(new SqlParameter("@EXAMES", Exames));
-                cmd.Parameters.Add(new SqlParameter("@RECOMENDACOES", Recomendacoes));
-                cmd.Parameters.Add(new SqlParameter("@STATUS_DA_CONSULTA", StatusConsulta));
+                cmd.Parameters.Add(new SqlParameter("@DOCTOR_ID", Medico));
+                cmd.Parameters.Add(new SqlParameter("@PATIENT_ID", Paciente));
+                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_ID", Receita));
+                cmd.Parameters.Add(new SqlParameter("@APPOINTMENT_DATETIME", DataConsulta));
+                cmd.Parameters.Add(new SqlParameter("@SYMPTOMS", Sintomas));
+                cmd.Parameters.Add(new SqlParameter("@TESTS", Exames));
+                cmd.Parameters.Add(new SqlParameter("@APPOINTMENT_STATUS", Exames));
+                cmd.Parameters.Add(new SqlParameter("@RECOMMENDATIONS", Recomendacoes));
+                cmd.Parameters.Add(new SqlParameter("@CREATED_ON", StatusConsulta));
 
                 cmd.ExecuteNonQuery();
             }

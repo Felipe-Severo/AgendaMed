@@ -9,10 +9,10 @@ namespace AgendaMedWebApp.Models
         public DateTime DataConsulta { get; set; }
         public StatusConsulta StatusConsulta { get; set; }
         public string Sintomas { get; set; }
+        public long Receita { get; set; }
         public string Recomendacoes { get; set; }
         public string Exames { get; set; }
-        public DateTime DataAgendamento { get; set; } = DateTime.Now;
-
+        public DateTime DataAgendamento { get; set; }
 
         public ConsultaModel()
         {
@@ -27,6 +27,7 @@ namespace AgendaMedWebApp.Models
             DataConsulta = consulta.DataConsulta;
             StatusConsulta = consulta.StatusConsulta;
             Sintomas = consulta.Sintomas;
+            Receita = consulta.Receita;
             Recomendacoes = consulta.Recomendacoes;
             Exames = consulta.Exames;
             DataAgendamento = consulta.DataAgendamento;
@@ -43,6 +44,7 @@ namespace AgendaMedWebApp.Models
                 DataConsulta = DataConsulta,
                 StatusConsulta = StatusConsulta,
                 Sintomas = Sintomas,
+                Receita = Receita,
                 Recomendacoes = Recomendacoes,
                 Exames = Exames,
                 DataAgendamento = DataAgendamento,

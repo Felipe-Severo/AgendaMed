@@ -33,26 +33,35 @@ namespace AgendaMedWebApp.Controllers
 
         public IActionResult Add()
         {
+            ViewBag.Pessoas = new List<PessoaModel>();
+            foreach (var pessoa in Pessoa.Read())
+            {
+                ViewBag.Pessoas.Add(new PessoaModel(pessoa));
+            }
             return View();
         }
 
         [HttpPost]
         public IActionResult Add(ConsultaModel consultaModel)
         {
-            var consultaCadastro = new Business.Genericos.Consulta()
-            {
-                Medico = consultaModel.Medico,
-                Paciente = consultaModel.Paciente,
-                DataConsulta = consultaModel.DataConsulta,
-                StatusConsulta = consultaModel.StatusConsulta,
-                Sintomas = consultaModel.Sintomas,
-                Exames = consultaModel.Exames,
-                Recomendacoes = consultaModel.Recomendacoes,
-                DataAgendamento = consultaModel.DataAgendamento,
-            };
+            //var consultaCadastro = new Business.Genericos.Consulta()
+            //{
+            //    Medico = consultaModel.Medico,
+            //    Paciente = consultaModel.Paciente,
+            //    DataConsulta = consultaModel.DataConsulta,
+            //    StatusConsulta = consultaModel.StatusConsulta,
+            //    Sintomas = consultaModel.Sintomas,
+            //    Exames = consultaModel.Exames,
+            //    Recomendacoes = consultaModel.Recomendacoes,
+            //    DataAgendamento = consultaModel.DataAgendamento,
+            //};
 
-            Business.Genericos.Consulta.Read().Add(consultaCadastro);
-            return RedirectToAction("Index");
+            //Business.Genericos.Consulta.Read().Add(consultaCadastro);
+            //return RedirectToAction("Index");
+
+
+            var id = consultaModel.GetConsulta().Create();
+            return RedirectToAction("Index", new { id = id });
         }
 
         public IActionResult Update(long id)
