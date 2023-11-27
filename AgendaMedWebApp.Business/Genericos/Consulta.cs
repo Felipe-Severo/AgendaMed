@@ -2,6 +2,7 @@
 using AgendaMedWebApp.Business.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -41,7 +42,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATETIME, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON FROM APPOINTMENTS";
+                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, APPOINTMENT_DATETIME, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON FROM APPOINTMENTS";
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -51,13 +52,13 @@ namespace AgendaMedWebApp.Business.Genericos
                         Id = reader.GetInt32(0),
                         Medico = reader.IsDBNull(1) ? 0 : reader.GetInt32(1), // Verifica se o valor é nulo
                         Paciente = reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
-                        Receita = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
-                        DataConsulta = reader.GetDateTime(4),
-                        Sintomas = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
-                        Exames = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
-                        Recomendacoes = reader.IsDBNull(7) ? string.Empty : reader.GetString(7),
-                        StatusConsulta = (StatusConsulta)reader.GetInt32(8),
-                        DataAgendamento = reader.GetDateTime(9),
+                        //Receita = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+                        DataConsulta = reader.GetDateTime(3),
+                        Sintomas = reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
+                        Exames = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
+                        Recomendacoes = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+                        StatusConsulta = (StatusConsulta)reader.GetInt32(7),
+                        DataAgendamento = reader.GetDateTime(8),
                     };
                     
 
@@ -76,7 +77,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATETIME, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON FROM APPOINTMENTS WHERE ID = @ID";
+                cmd.CommandText = "SELECT ID, DOCTOR_ID, PATIENT_ID, APPOINTMENT_DATETIME, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON FROM APPOINTMENTS WHERE ID = @ID";
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
 
                 var reader = cmd.ExecuteReader();
@@ -85,15 +86,15 @@ namespace AgendaMedWebApp.Business.Genericos
                     Consulta consulta = new Consulta()
                     {
                         Id = reader.GetInt32(0),
-                        Medico = reader.GetInt32(1),
-                        Paciente = reader.GetInt32(2),
-                        Receita = reader.GetInt32(3),
-                        DataConsulta = reader.GetDateTime(4),
-                        Sintomas = reader.GetString(5),
-                        Exames = reader.GetString(6),
-                        Recomendacoes = reader.GetString(7),
-                        StatusConsulta = (StatusConsulta)reader.GetInt32(8),
-                        DataAgendamento = reader.GetDateTime(9),
+                        Medico = reader.IsDBNull(1) ? 0 : reader.GetInt32(1), // Verifica se o valor é nulo
+                        Paciente = reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
+                        //Receita = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+                        DataConsulta = reader.GetDateTime(3),
+                        Sintomas = reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
+                        Exames = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
+                        Recomendacoes = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+                        StatusConsulta = (StatusConsulta)reader.GetInt32(7),
+                        DataAgendamento = reader.GetDateTime(8),
                     };
 
                     result = consulta;
@@ -108,13 +109,12 @@ namespace AgendaMedWebApp.Business.Genericos
             using (var conn = new SqlConnection(DBConnect.GetDBConnection()))
             {
                 conn.Open();
-                var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO APPOINTMENTS (DOCTOR_ID, PATIENT_ID, PRESCRIPTION_ID, APPOINTMENT_DATETIME, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON )" +
-                                  $"OUTPUT INSERTED.ID VALUES (@DOCTOR_ID, @PATIENT_ID, @PRESCRIPTION_ID, @APPOINTMENT_DATETIME, @SYMPTOMS, @TESTS, @RECOMMENDATIONS, @APPOINTMENT_STATUS, @CREATED_ON)";
+                var cmd = conn.CreateCommand();         
+                cmd.CommandText = "INSERT INTO APPOINTMENTS (DOCTOR_ID, PATIENT_ID, APPOINTMENT_DATETIME, SYMPTOMS, TESTS, RECOMMENDATIONS, APPOINTMENT_STATUS, CREATED_ON )" +
+                                  $"OUTPUT INSERTED.ID VALUES (@DOCTOR_ID, @PATIENT_ID, @APPOINTMENT_DATETIME, @SYMPTOMS, @TESTS, @RECOMMENDATIONS, @APPOINTMENT_STATUS, @CREATED_ON)";
 
                 cmd.Parameters.Add(new SqlParameter("@DOCTOR_ID", Medico));
                 cmd.Parameters.Add(new SqlParameter("@PATIENT_ID", Paciente));
-                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_ID", Receita));
                 cmd.Parameters.Add(new SqlParameter("@APPOINTMENT_DATETIME", DataConsulta));
                 cmd.Parameters.Add(new SqlParameter("@SYMPTOMS", Sintomas));
                 cmd.Parameters.Add(new SqlParameter("@TESTS", Exames));
@@ -132,12 +132,12 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE APPOINTMENTS SET DOCTOR_ID = @DOCTOR_ID, PATIENT_ID = @PATIENT_ID, PRESCRIPTION_ID = @PRESCRIPTION_ID, APPOINTMENT_DATETIME = @APPOINTMENT_DATETIME," +
-                    $"SYMPTOMS = @SYMPTOMS, TESTS = @TESTS, RECOMMENDATIONS = @RECOMMENDATIONS, APPOINTMENT_STATUS = @APPOINTMENT_STATUS, CREATED_ON = @CREATED_ON WHERE ID = @ID";
+                cmd.CommandText = "UPDATE APPOINTMENTS SET DOCTOR_ID = @DOCTOR_ID, PATIENT_ID = @PATIENT_ID, APPOINTMENT_DATETIME = @APPOINTMENT_DATETIME," +
+                    $"SYMPTOMS = @SYMPTOMS, TESTS = @TESTS, APPOINTMENT_STATUS = @APPOINTMENT_STATUS, RECOMMENDATIONS = @RECOMMENDATIONS, CREATED_ON = @CREATED_ON WHERE ID = @ID";
 
+                cmd.Parameters.Add(new SqlParameter("@ID", Id));
                 cmd.Parameters.Add(new SqlParameter("@DOCTOR_ID", Medico));
                 cmd.Parameters.Add(new SqlParameter("@PATIENT_ID", Paciente));
-                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_ID", Receita));
                 cmd.Parameters.Add(new SqlParameter("@APPOINTMENT_DATETIME", DataConsulta));
                 cmd.Parameters.Add(new SqlParameter("@SYMPTOMS", Sintomas));
                 cmd.Parameters.Add(new SqlParameter("@TESTS", Exames));

@@ -28,14 +28,17 @@
         <div class="form-group">
             @* Aqui só mostrará as datas disponíveis para o médico escolhido / A FAZER *@
             <label for="data_consulta">Data da consulta</label>
-            <input type="date" id="data_consulta" class="form-control" asp-for="DataConsulta" required />
+            <input type="datetime-local" id="data_consulta" class="form-control" asp-for="DataConsulta" required />
         </div>
 
         <div class="form-group">
             <label for="sintomas">Sintomas</label>
             <input type="text" id="sintomas" class="form-control" asp-for="Sintomas" />
         </div>
-
+       @*  <div>
+            <label for="status">Status do agendamento</label>
+            @if(AgendaMedWebApp.Business.Genericos)
+        </div> *@
         <div class="form-group">
             <label for="recomendacao">Resomendações</label>
             <input type="text" id="recomendacao" class="form-control" asp-for="Recomendacoes" />
@@ -49,11 +52,24 @@
             @* Aqui só mostrará as datas disponíveis para o médico escolhido / A FAZER *@
             <label for="data_agendamento">Data do agendamento</label>
             
-            <input type="date" id="data_agendamento" class="form-control" asp-for="DataAgendamento" />
+            <input type="datetime-local" id="data_agendamento" class="form-control" asp-for="DataAgendamento" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
         </div>
         @* Aqui falta ver como vamo usar o status da consulta / A FAZER *@
         <br />
         <button type="submit" class="btn btn-primary float-end">Salvar</button>
         <a class="btn btn-secondary float-end" asp-controller="Consultas" asp-action="Index">Voltar</a>
+
+        <script>
+            var now = new Date()
+            var year = now.getFullYear()
+            var month = (now.getMonth() + 1).toString().padStart(2, "0")
+            var day = now.getDate().toString().padStart(2, "0")
+            var hours = now.getHours().toString().padStart(2, "0")
+            var minutes = now.getMinutes().toString().padStart(2, "0")
+
+            var currentDatetime = `${year}-${month}-${day}T${hours}:${minutes}`
+
+            document.getElementById('data_consulta').setAttribute('min', currentDatetime)
+        </script>
     </form>
 </div>

@@ -1,5 +1,75 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ConsultaModel
+
 @{
+    ViewData["Title"] = "Consulta";
 }
+<div>
+    <h3>Alterar consultas</h3>
+    <form asp-controller="Consultas" asp-action="Add" method="post">
+        <div class="form-group">
+            <label for="medico">Médico</label>
+            <select id="medico" class="form-select" asp-for="Medico">
+                @foreach (PessoaModel pessoa in ViewBag.Pessoas)
+                {
+                    <option value="@pessoa.Id">@pessoa.Nome</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="paciente">Paciente</label>
+            <select id="paciente" class="form-select" asp-for="Paciente">
+                @foreach (PessoaModel pessoa in ViewBag.Pessoas)
+                {
+                    <option value="@pessoa.Id">@pessoa.Nome</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            @* Aqui só mostrará as datas disponíveis para o médico escolhido / A FAZER *@
+            <label for="data_consulta">Data da consulta</label>
+            <input type="datetime-local" id="data_consulta" class="form-control" asp-for="DataConsulta" required />
+        </div>
+
+        <div class="form-group">
+            <label for="sintomas">Sintomas</label>
+            <input type="text" id="sintomas" class="form-control" asp-for="Sintomas" />
+        </div>
+        @*  <div>
+        <label for="status">Status do agendamento</label>
+        @if(AgendaMedWebApp.Business.Genericos)
+        </div> *@
+        <div class="form-group">
+            <label for="recomendacao">Resomendações</label>
+            <input type="text" id="recomendacao" class="form-control" asp-for="Recomendacoes" />
+        </div>
+
+        <div class="form-group">
+            <label for="exames">Exames</label>
+            <input type="text" id="exames" class="form-control" asp-for="Exames" />
+        </div>
+        <div class="form-group">
+            @* Aqui só mostrará as datas disponíveis para o médico escolhido / A FAZER *@
+            <label for="data_agendamento">Data do agendamento</label>
+
+            <input type="datetime-local" id="data_agendamento" class="form-control" asp-for="DataAgendamento" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+        </div>
+        @* Aqui falta ver como vamo usar o status da consulta / A FAZER *@
+        <br />
+        <button type="submit" class="btn btn-primary float-end">Salvar</button>
+        <a class="btn btn-secondary float-end" asp-controller="Consultas" asp-action="Index">Voltar</a>
+
+        <script>
+            var now = new Date()
+            var year = now.getFullYear()
+            var month = (now.getMonth() + 1).toString().padStart(2, "0")
+            var day = now.getDate().toString().padStart(2, "0")
+            var hours = now.getHours().toString().padStart(2, "0")
+            var minutes = now.getMinutes().toString().padStart(2, "0")
+
+            var currentDatetime = `${year}-${month}-${day}T${hours}:${minutes}`
+
+            document.getElementById('data_consulta').setAttribute('min', currentDatetime)
+        </script>
+    </form>
+</div>
