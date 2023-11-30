@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AgendaMedWebApp.Models;
 using AgendaMedWebApp.Business.Genericos;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace AgendaMedWebApp.Controllers
 {
     public class UsersController : Controller
     {
+        //[Authorize("Admin")]
         public IActionResult Index()
         {
             var model = new UsersModel();
@@ -38,117 +39,44 @@ namespace AgendaMedWebApp.Controllers
             return RedirectToAction("Update", new { id = id });
         }
 
-
         public IActionResult Update(long id)
         {
-            var model = new UserModel();
-            User usuarioAlterar = null;
-
-            foreach (var usuario in Business.Genericos.User.Read())
-            {
-                if (usuario.Id == id)
-                {
-                    usuarioAlterar = usuario;
-                    break;
-                }
-            }
-
-            if (usuarioAlterar == null)
-            {
-                throw new Exception("Não existe usuário cadastrado com o ID informado!");
-            }
-
-            model.Id = id;
-            model.Login = usuarioAlterar.Login;
-            model.Password = usuarioAlterar.Password;
-            model.AccessType = usuarioAlterar.AccessType;
-
-            return View(model);
+            return View(new UserModel(Business.Genericos.User.ReadOne(id)));
         }
 
         [HttpPost]
-        public IActionResult Update(UserModel usuarioAtualizado)
+        public IActionResult Update(UserModel userModel)
         {
-            var model = new UserModel();
-            Business.Genericos.User usuarioAlterar = null;
-
-            foreach (var usuario in Business.Genericos.User.Read())
-            {
-                if (usuario.Id == usuarioAtualizado.Id)
-                {
-                    usuarioAlterar = usuario;
-                    break;
-                }
-            }
-
-            if (usuarioAlterar == null)
-            {
-                throw new Exception("Não existe usuário cadastrado com o ID informado!");
-            }
-
-
-            usuarioAlterar.Login = usuarioAtualizado.Login;
-            usuarioAlterar.Password = usuarioAtualizado.Password;
-            usuarioAlterar.AccessType = usuarioAtualizado.AccessType;
-
-            if (usuarioAtualizado.Password != "00000000" && usuarioAtualizado.Password != usuarioAlterar.Password)
-            {
-                usuarioAlterar.Password = usuarioAtualizado.Password;
-            }
-
+            userModel.GetUser().Update();
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(long id)
         {
-            var model = new UserModel();
-            Business.Genericos.User usuarioAlterar = null;
-
-            foreach (var usuario in Business.Genericos.User.Read())
-            {
-                if (usuario.Id == id)
-                {
-                    usuarioAlterar = usuario;
-                    break;
-                }
-            }
-
-            if (usuarioAlterar == null)
-            {
-                throw new Exception("Não existe usuário cadastrado com o ID informado!");
-            }
-
-            model.Id = id;
-            model.Login = usuarioAlterar.Login;
-            model.Password = usuarioAlterar.Password;
-            model.AccessType = usuarioAlterar.AccessType;
-
-            return View(model);
+            return View(new UserModel(Business.Genericos.User.ReadOne(id)));
         }
 
         [HttpPost]
-        public IActionResult Delete(UserModel usuarioAtualizado)
+        public IActionResult Delete(UserModel userModel)
         {
-            var model = new UserModel();
-            Business.Genericos.User usuarioExcluir = null;
+            userModel.GetUser().Delete();
+            return RedirectToAction("Index");
+        }
 
-            foreach (var usuario in Business.Genericos.User.Read())
+        [HttpPost]
+        public IActionResult UploadFoto(IFormFile uploadFoto)
+        {
+            if (uploadFoto != null && uploadFoto.Length > 0)
             {
-                if (usuario.Id == usuarioAtualizado.Id)
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    usuarioExcluir = usuario;
-                    break;
+                    uploadFoto.CopyTo(ms);
+                    byte[] fotoBytes = ms.ToArray();
+
                 }
             }
 
-            if (usuarioExcluir == null)
-            {
-                throw new Exception("Não existe usuário cadastrado com o ID informado!");
-            }
-
-            Business.Genericos.User.Read().Remove(usuarioExcluir);
-
-            return RedirectToAction("Index");
+            return RedirectToAction("Perfil");
         }
     }
 }

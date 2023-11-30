@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authentication
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8" />
@@ -7,6 +10,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AgendaMedWebApp.styles.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -41,6 +45,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark me-3" asp-area="" asp-controller="Medicamentos" asp-action="Index">Medicamentos</a>
                         </li>
+                        @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.User.HasClaim("AccessType", "Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Usuários</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark me-3" asp-area="" asp-controller="Users" asp-action="Index">Usuários</a>
                         </li>
@@ -48,6 +58,34 @@
                             <a class="nav-link text-dark me-3" asp-area="" asp-controller="Receitas" asp-action="Index">Receitas</a>
                         </li>
                     </ul>
+                </div>
+                <div id="logout-link float-end">
+                    @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        <div class="dropdown">
+                            <button style="width:200px" class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-regular fa-user"></i>
+                                <span>@HttpContextAccessor.HttpContext.User.Identity.Name</span>
+                            </button>
+                            <ul style="width:200px" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li>
+                                    @*<i class="fa-solid fa-lock"></i>*@
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Alterar senha</a>
+                                    @*                                    <button class="dropdown-item" onclick="previewUrl('@Url.Action("ChangePassword", "Account")')">Alterar senha 2</button>*@
+                                </li>
+                                <li>
+                                    <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                                        @*<i class="fa-solid fa-door-open"></i>*@
+                                        <button type="submit" class="btn btn-link">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <a class="btn btn-link" asp-area="" asp-controller="Account" asp-action="Login">Acessar</a>
+                    }
                 </div>
             </div>
         </nav>

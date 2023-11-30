@@ -1,5 +1,42 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model UserModel
 @{
+    ViewData["Title"] = "Usuário";
 }
+<div>
+    <h3>Exclusão de usuário</h3>
+    <form asp-controller="Users" asp-action="Delete" method="post">
+        <div class="form-group">
+            <label for="login">Login:</label>
+            <input type="text" id="login" class="form-control" asp-for="Login" value="@Model.Login" readonly />
+        </div>
+        <div class="form-group">
+            <label for="pessoa">Pessoa:</label>
+            <input id="pessoa" class="form-select" asp-for="Pessoa" value="@Model.Pessoa" readonly />
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="text" id="password" class="form-control" asp-for="Password" value="@Model.Password" readonly />
+        </div>
+        <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" class="form-control" asp-for="Password" value="00000000" readonly />
+        </div>
+        <div class="form-group">
+            <label for="accessType">Tipo de acesso</label>
+            <select id="accessType" class="form-select" asp-for="AccessType" selected="@Model.AccessType.GetHashCode()" disabled>
+                <option value="0">Administrador</option>
+                <option value="1">Médico</option>
+                <option value="2">Paciente</option>
+            </select>
+        </div>
+
+        <br />
+
+        <div class="alert alert-danger" role="alert">
+            Você está prestes a excluir este registro do sistema, deseja continuar?
+
+            <button type="submit" class="btn btn-primary float-end">Sim</button>
+            <a class="btn btn-secondary float-end" asp-controller="Users" asp-action="Index">Não</a>
+        </div>
+    </form>
+</div>
