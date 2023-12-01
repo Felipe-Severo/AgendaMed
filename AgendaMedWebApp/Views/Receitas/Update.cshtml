@@ -8,28 +8,14 @@
         <div class="form-group">
             <label for="date_prescription">Data da Prescrição</label>
             <input type="date" id="date_prescription" class="form-control" asp-for="DataPrescricao" />
-        </div>@*
+        </div>
         <div class="form-group">
             <label for="medicamento">Medicamento</label>
-            <input type="text" id="medicamento" class="form-control" asp-for="Medicamento" />
+            @*<input type="text" id="medicamento" class="form-control" asp-for="Medicamento" />*@
+            <textarea type="text" class="form-control" id="medicamento" asp-for="Prescricao" rows=" 15"></textarea>
         </div>
-
-        <div class="form-group">
-            <label for="dosagem">Dosagem</label>
-            <input type="text" id="dosagem" class="form-control" asp-for="Dosagem" />
-        </div>
-
-        <div class="form-group">
-            <label for="posologia_hora">Posologia / Hora</label>
-            <input type="text" id="posologia_hora" class="form-control" asp-for="PosologiaHora" />
-        </div>
-
-        <div class="form-group">
-            <label for="posologia_dia">Posologia / Dias</label>
-            <input type="text" id="posologia_dia" class="form-control" asp-for="PosologiaDias" />
-        </div>*@
         <br />
         <button type="submit" class="btn btn-primary float-end">Salvar</button>
-        <a class="btn btn-secondary float-end" asp-controller="Pessoas" asp-action="Index">Voltar</a>
+        <a class="btn btn-secondary float-end" asp-controller="Receitas" asp-action="Index">Voltar</a>
     </form>
 </div>

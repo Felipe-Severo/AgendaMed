@@ -22,12 +22,12 @@ namespace AgendaMedWebApp.Models
             Medication_Id = new MedicamentoModel(medicamento.Medication_Id);
             Prescription_Id = medicamento.Prescription_Id;
          
-            Posology = medicamento.Posology;
+            //Posology = medicamento.Posology;
         }
 
         public ReceitaMedicamentos GetReceitaMedicamento()
         {
-            return new ReceitaMedicamentos() { Id = Id, Medication_Id = AgendaMed.Business.Genericos.Medicamento.ReadOne(Medication_Id.Id), Prescription_Id = Prescription_Id, Posology = Posology };
+            return new ReceitaMedicamentos() { Id = Id, Medication_Id = AgendaMed.Business.Genericos.Medicamento.ReadOne(Medication_Id.Id), Prescription_Id = Prescription_Id };
         }
     }
 }

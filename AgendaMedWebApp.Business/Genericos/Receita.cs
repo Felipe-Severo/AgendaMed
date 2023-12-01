@@ -13,6 +13,8 @@ namespace AgendaMedWebApp.Business.Genericos
     {
         public long Id { get; set; }
         public DateTime DataPrescricao { get; set; }
+        public string? Prescricao { get; set; }
+        //public string? Dosagem { get; set; }
         
 
         public List<ReceitaMedicamentos> _Medicamento { get; set; } = new List<ReceitaMedicamentos>();
@@ -59,7 +61,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, PRESCRIPTION_DATE FROM PRESCRIPTIONS";
+                cmd.CommandText = "SELECT ID, PRESCRIPTION_DATE, MEDICATION FROM PRESCRIPTIONS";
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -67,8 +69,9 @@ namespace AgendaMedWebApp.Business.Genericos
                     Receita receita = new Receita()
                     {
                         Id = reader.GetInt32(0),
-                        DataPrescricao = reader.GetDateTime(1),
-
+                        DataPrescricao =(DateTime)reader["PRESCRIPTION_DATE"],
+                        Prescricao = reader.GetString(2),
+                        //Dosagem = reader.GetString(3)
                     };
 
                     receita._Medicamento = ReceitaMedicamentos.Read(receita.Id);
@@ -88,7 +91,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, PRESCRIPTION_DATE FROM PRESCRIPTIONS WHERE ID = @ID";
+                cmd.CommandText = "SELECT ID, PRESCRIPTION_DATE, MEDICATION FROM PRESCRIPTIONS WHERE ID = @ID";
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
 
                 var reader = cmd.ExecuteReader();
@@ -97,7 +100,9 @@ namespace AgendaMedWebApp.Business.Genericos
                     Receita receita = new Receita()
                     {
                         Id = reader.GetInt32(0),
-                        DataPrescricao = reader.GetDateTime(1),
+                        DataPrescricao = (DateTime)reader["PRESCRIPTION_DATE"],
+                        Prescricao = reader.GetString(2),
+                        //Dosagem = reader.GetString(3)
                     };
 
                     receita._Medicamento = ReceitaMedicamentos.Read(receita.Id);
@@ -115,12 +120,15 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO PRESCRIPTIONS (PRESCRIPTION_DATE)" +
-                                   $"OUTPUT INSERTED.ID VALUES (@PRESCRIPTION_DATE)";
+                cmd.CommandText = "INSERT INTO PRESCRIPTIONS (PRESCRIPTION_DATE, MEDICATION)" +
+                                   $"OUTPUT INSERTED.ID VALUES (@PRESCRIPTION_DATE, @MEDICATION)";
 
-                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_DATE", DataPrescricao));
+                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_DATE",DataPrescricao));
+                cmd.Parameters.Add(new SqlParameter("@MEDICATION", Prescricao));
+                //cmd.Parameters.Add(new SqlParameter("@DOSAGE", Dosagem));
 
-                return (long)cmd.ExecuteScalar();
+                //return cmd.ExecuteNonQuery();
+                return (int)cmd.ExecuteScalar();
             }
         }
 
@@ -130,11 +138,12 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE PRESCRIPTIONS SET PRESCRIPTION_DATE = @PRESCRIPTION_DATE WHERE ID = @ID";
+                cmd.CommandText = "UPDATE PRESCRIPTIONS SET PRESCRIPTION_DATE = @PRESCRIPTION_DATE, MEDICATION = @MEDICATION WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
                 cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_DATE", DataPrescricao));
-              
+                cmd.Parameters.Add(new SqlParameter("@MEDICATION", Prescricao));
+                //cmd.Parameters.Add(new SqlParameter("@DOSAGE", Dosagem));
 
                 cmd.ExecuteNonQuery();
             }

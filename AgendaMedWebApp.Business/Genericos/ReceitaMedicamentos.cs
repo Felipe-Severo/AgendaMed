@@ -16,7 +16,7 @@ namespace AgendaMedWebApp.Business.Genericos
         public Medicamento Medication_Id { get; set; }
         public long Prescription_Id { get; set; }
         //public decimal Dosage { get; set; }
-        public string Posology { get; set; }
+        //public string Posology { get; set; }
 
         public static List<ReceitaMedicamentos> Read()
         {
@@ -26,7 +26,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, MEDICATION_ID, PRESCRIPTION_ID, POSOLOGY FROM MEDICATION_PRESCRIPTION";
+                cmd.CommandText = "SELECT ID, MEDICATION_ID, PRESCRIPTION_ID FROM MEDICATION_PRESCRIPTION";
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -37,7 +37,7 @@ namespace AgendaMedWebApp.Business.Genericos
                         Medication_Id = Medicamento.ReadOne(reader.GetInt32(1)),
                         Prescription_Id = reader.GetInt32(2),
 
-                        Posology = reader.GetString(4),
+                        //Posology = reader.GetString(4),
                     };
 
                     result.Add(medicamento);
@@ -55,7 +55,8 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, MEDICATION_ID, PRESCRIPTION_ID, POSOLOGY FROM MEDICATION_PRESCRIPTIONS";
+                cmd.CommandText = "SELECT ID, MEDICATION_ID, PRESCRIPTION_ID FROM MEDICATION_PRESCRIPTIONS";
+                cmd.Parameters.Add(new SqlParameter("@ID", Id));
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -66,7 +67,7 @@ namespace AgendaMedWebApp.Business.Genericos
                         Medication_Id = Medicamento.ReadOne(reader.GetInt32(1)),
                         Prescription_Id = reader.GetInt32(2),
 
-                        Posology = reader.GetString(4),
+                        //Posology = reader.GetString(4),
                     };
 
                     result.Add(medicamento);
@@ -84,7 +85,7 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT ID, MEDICATION_ID, PRESCRIPTION_ID, POSOLOGY FROM MEDICATION_PRESCRIPTION WHERE ID = @ID";
+                cmd.CommandText = "SELECT ID, MEDICATION_ID, PRESCRIPTION_ID FROM MEDICATION_PRESCRIPTION WHERE ID = @ID";
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
 
                 var reader = cmd.ExecuteReader();
@@ -96,7 +97,7 @@ namespace AgendaMedWebApp.Business.Genericos
                         Medication_Id = Medicamento.ReadOne(reader.GetInt32(1)),
                         Prescription_Id = reader.GetInt32(2),
 
-                        Posology = reader.GetString(4),
+                        //Posology = reader.GetString(4),
                     };
 
                     result = medicamento;
@@ -111,13 +112,13 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO MEDICATION_PRESCRIPTIONS (MEDICATION_ID, PRESCRIPTION_ID, POSOLOGY, ID)" +
-                                  $"VALUES (@MEDICATION_ID, @PRESCRIPTION_ID, @POSOLOGY, @ID)";
+                cmd.CommandText = "INSERT INTO MEDICATION_PRESCRIPTIONS (MEDICATION_ID, PRESCRIPTION_ID, , ID)" +
+                                  $"VALUES (@MEDICATION_ID, @PRESCRIPTION_ID, @ID)";
 
                 cmd.Parameters.Add(new SqlParameter("@MEDICATION_ID", Medication_Id));
                 cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_ID", Prescription_Id));
 
-                cmd.Parameters.Add(new SqlParameter("@POSOLOGY", Posology));
+                //cmd.Parameters.Add(new SqlParameter("@POSOLOGY", Posology));
                 cmd.Parameters.Add(new SqlParameter("@ID", Id));
 
                 cmd.ExecuteNonQuery();
@@ -130,12 +131,12 @@ namespace AgendaMedWebApp.Business.Genericos
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "UPDATE MEDICATION_PRESCRIPTIONS SET MEDICATION_ID = @MEDICATION_ID, PRESCRIPTION_ID = @PRESCRIPTION_ID , POSOLOGY = @POSOLOGY WHERE ID = @ID";
+                cmd.CommandText = "UPDATE MEDICATION_PRESCRIPTIONS SET MEDICATION_ID = @MEDICATION_ID, PRESCRIPTION_ID = @PRESCRIPTION_ID WHERE ID = @ID";
 
                 cmd.Parameters.Add(new SqlParameter("@MEDICATION_ID", Medication_Id));
                 cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION_ID", Prescription_Id));
 
-                cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION", Posology));
+                //cmd.Parameters.Add(new SqlParameter("@PRESCRIPTION", Posology));
 
                 cmd.ExecuteNonQuery();
             }

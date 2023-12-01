@@ -1,29 +1,28 @@
 ﻿using AgendaMedWebApp.Business.Genericos;
+using System.Drawing;
 
-namespace AgendaMedWebApp.Models
-{
+namespace AgendaMedWebApp.Models{
+       
+
     public class ReceitaModel
     {
         public long Id { get; set; }
         public DateTime DataPrescricao { get; set; }
-        //public int Medicamento { get; set; }
-        //public decimal Dosagem { get; set; }
-        //public int PosologiaHora { get; set; }
-        //public int PosologiaDias { get; set; }
+        public string Prescricao { get; set; }
 
-        public List<ReceitaMedicamentoModel> Medicamentos { get; set; } = new List<ReceitaMedicamentoModel>();
 
+        public ReceitaModel()
+        {
+
+        }
 
         public ReceitaModel(Receita receita)
         {
             Id = receita.Id;
             DataPrescricao = receita.DataPrescricao;
+            Prescricao = receita.Prescricao;
+        
 
-
-            foreach (var medicamento in receita._Medicamento)
-            {
-                Medicamentos.Add(new ReceitaMedicamentoModel(medicamento));
-            }
         }
 
         public Receita GetReceita()
@@ -32,12 +31,9 @@ namespace AgendaMedWebApp.Models
             {
                 Id = Id,
                 DataPrescricao = DataPrescricao,
-
+                Prescricao = Prescricao
             };
-
         }
-
-
 
 
     }
